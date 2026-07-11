@@ -1,0 +1,11 @@
+import java
+
+from MethodCall call
+where call.getLocation().getFile().getRelativePath() = {{file}}
+  and call.getLocation().getStartLine() <= {{line}} + 30
+  and call.getLocation().getStartLine() >= {{line}} - 30
+  and (
+    call.getMethod().getName().regexpMatch("(?i).*setAttribute.*") or
+    call.getMethod().getName().regexpMatch("(?i).*put.*")
+  )
+select call, "Potential trust-boundary transfer near alert: " + call.toString()

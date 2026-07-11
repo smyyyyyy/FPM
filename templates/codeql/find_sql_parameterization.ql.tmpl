@@ -1,0 +1,27 @@
+import java
+
+predicate inWindow(Element e) {
+  e.getLocation().getFile().getRelativePath() = {{file}} and
+  e.getLocation().getStartLine() <= {{line}} + 30 and
+  e.getLocation().getStartLine() >= {{line}} - 80
+}
+
+predicate sqlApi(MethodCall call) {
+  call.getMethod().getName().regexpMatch("(?i)(prepareStatement|execute|executeQuery|executeUpdate|query|queryForList|update|batchUpdate|setString|setInt|setLong|setObject)")
+}
+
+predicate constantStatus(Expr arg, string status) {
+  arg.isCompileTimeConstant() and status = "yes"
+  or
+  not arg.isCompileTimeConstant() and status = "no"
+}
+
+from MethodCall call, Expr arg, string status
+where inWindow(call)
+  and sqlApi(call)
+  and arg = call.getAnArgument()
+  and constantStatus(arg, status)
+select call,
+  "SQL evidence: method=" + call.getMethod().getName() +
+  ", arg=" + arg.toString() +
+  ", arg_compile_time_constant=" + status

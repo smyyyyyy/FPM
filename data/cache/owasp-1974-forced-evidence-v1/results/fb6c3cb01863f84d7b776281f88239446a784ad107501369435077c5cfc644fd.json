@@ -1,0 +1,65 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "fb6c3cb01863f84d7b776281f88239446a784ad107501369435077c5cfc644fd",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00513.java",
+    "line": 63
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "param"
+        ],
+        "message": "direct constant local initialization: param = \"\"",
+        "values": [
+          "direct constant local initialization: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (!...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (!...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "direct constant local initialization: bar = \"safe!\"",
+        "values": [
+          "direct constant local initialization: bar = \"safe!\""
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 5
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

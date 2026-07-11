@@ -1,0 +1,38 @@
+{
+  "batch_id": "fdad1d2fc73769a0fe5b94f47ce3ca9eaa7cfe5e99df4caa496b74f58c8dbccf",
+  "batch_request_count": 84,
+  "cache_hit": false,
+  "cache_key": "9c3e9a629732522baba186d6fe23d6a8e7e59a54c3a9c6e2ccb6f6d912db450b",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01818.java",
+    "line": 54
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "execute(...)"
+        ],
+        "message": "SQL evidence: method=execute, arg=sql, arg_compile_time_constant=no",
+        "values": [
+          "SQL evidence: method=execute, arg=sql, arg_compile_time_constant=no"
+        ]
+      },
+      {
+        "entities": [
+          "execute(...)"
+        ],
+        "message": "SQL evidence: method=execute, arg=new int[], arg_compile_time_constant=no",
+        "values": [
+          "SQL evidence: method=execute, arg=new int[], arg_compile_time_constant=no"
+        ]
+      }
+    ],
+    "template_id": "find-sql-parameterization",
+    "truncated": false,
+    "tuple_count": 2
+  },
+  "template_id": "find-sql-parameterization"
+}

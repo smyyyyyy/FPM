@@ -1,0 +1,29 @@
+{
+  "batch_id": "fdad1d2fc73769a0fe5b94f47ce3ca9eaa7cfe5e99df4caa496b74f58c8dbccf",
+  "batch_request_count": 84,
+  "cache_hit": false,
+  "cache_key": "db2e1a4ff8242f5f7257d16a2c13a8b5312633cf9131a69ce26a4fc285d0033d",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01468.java",
+    "line": 66
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "queryForList(...)"
+        ],
+        "message": "SQL evidence: method=queryForList, arg=sql, arg_compile_time_constant=no",
+        "values": [
+          "SQL evidence: method=queryForList, arg=sql, arg_compile_time_constant=no"
+        ]
+      }
+    ],
+    "template_id": "find-sql-parameterization",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-sql-parameterization"
+}

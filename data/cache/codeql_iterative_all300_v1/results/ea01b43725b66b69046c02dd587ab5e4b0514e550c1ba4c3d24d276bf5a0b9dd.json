@@ -1,0 +1,19 @@
+{
+  "batch_id": "a46e328054f0f0d2dd650da846da38810fa8ab559ff968aa60f8c3be86d4b43e",
+  "batch_request_count": 2,
+  "cache_hit": false,
+  "cache_key": "ea01b43725b66b69046c02dd587ab5e4b0514e550c1ba4c3d24d276bf5a0b9dd",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00805.java",
+    "line": 48
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "No rows were returned. Treat this as absence of queried evidence, not proof that the code has no sanitizer, guard, or safe API.",
+    "facts": [],
+    "template_id": "find-xss-encoder-nearby",
+    "truncated": false,
+    "tuple_count": 0
+  },
+  "template_id": "find-xss-encoder-nearby"
+}

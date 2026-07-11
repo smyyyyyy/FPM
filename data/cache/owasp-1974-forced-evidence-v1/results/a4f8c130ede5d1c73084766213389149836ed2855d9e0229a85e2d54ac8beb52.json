@@ -1,0 +1,30 @@
+{
+  "batch_id": "abd64da11dde5655ca9fb948e501d3b52b20134c17148cf58587ec9f67dc89f0",
+  "batch_request_count": 81,
+  "cache_hit": false,
+  "cache_key": "a4f8c130ede5d1c73084766213389149836ed2855d9e0229a85e2d54ac8beb52",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00855.java",
+    "line": 73
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "getInstance(...)",
+          "\"DES\""
+        ],
+        "message": "Crypto algorithm argument: \"DES\"",
+        "values": [
+          "Crypto algorithm argument: \"DES\""
+        ]
+      }
+    ],
+    "template_id": "find-crypto-algorithm",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-crypto-algorithm"
+}

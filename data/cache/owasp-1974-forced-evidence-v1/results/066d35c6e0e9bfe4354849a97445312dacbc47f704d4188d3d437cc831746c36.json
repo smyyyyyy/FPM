@@ -1,0 +1,19 @@
+{
+  "batch_id": "fdad1d2fc73769a0fe5b94f47ce3ca9eaa7cfe5e99df4caa496b74f58c8dbccf",
+  "batch_request_count": 84,
+  "cache_hit": false,
+  "cache_key": "066d35c6e0e9bfe4354849a97445312dacbc47f704d4188d3d437cc831746c36",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02265.java",
+    "line": 59
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "No rows were returned. Treat this as absence of queried evidence, not proof that the code has no sanitizer, guard, or safe API.",
+    "facts": [],
+    "template_id": "find-sql-parameterization",
+    "truncated": false,
+    "tuple_count": 0
+  },
+  "template_id": "find-sql-parameterization"
+}

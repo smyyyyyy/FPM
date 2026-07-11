@@ -1,0 +1,74 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "bc113d129615040b03c5e54c19bac18af1b14edca6a48354f6658befcabf8d0c",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01961.java",
+    "line": 59
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "param"
+        ],
+        "message": "direct constant local initialization: param = \"\"",
+        "values": [
+          "direct constant local initialization: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = getHeader(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = getHeader(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\""
+        ]
+      },
+      {
+        "entities": [
+          "g99523"
+        ],
+        "message": "direct constant local initialization: g99523 = \"barbarians_at_the_gate\"",
+        "values": [
+          "direct constant local initialization: g99523 = \"barbarians_at_the_gate\""
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument g99523 initialized as \"barbarians_at_the_gate\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument g99523 initialized as \"barbarians_at_the_gate\""
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 6
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

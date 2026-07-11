@@ -1,0 +1,56 @@
+{
+  "batch_id": "cf4158407931915538fd2b41a518788210c9b78bc0803a282d719c44c8790b0a",
+  "batch_request_count": 6,
+  "cache_hit": false,
+  "cache_key": "e685e4a10b3ba9ed72e87a440ba532021862dc4f56bd2bef3009587e58aa4043",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01207.java",
+    "line": 56
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "setAttribute(...)"
+        ],
+        "message": "Potential trust-boundary transfer near alert: setAttribute(...)",
+        "values": [
+          "Potential trust-boundary transfer near alert: setAttribute(...)"
+        ]
+      },
+      {
+        "entities": [
+          "put(...)"
+        ],
+        "message": "Potential trust-boundary transfer near alert: put(...)",
+        "values": [
+          "Potential trust-boundary transfer near alert: put(...)"
+        ]
+      },
+      {
+        "entities": [
+          "put(...)"
+        ],
+        "message": "Potential trust-boundary transfer near alert: put(...)",
+        "values": [
+          "Potential trust-boundary transfer near alert: put(...)"
+        ]
+      },
+      {
+        "entities": [
+          "put(...)"
+        ],
+        "message": "Potential trust-boundary transfer near alert: put(...)",
+        "values": [
+          "Potential trust-boundary transfer near alert: put(...)"
+        ]
+      }
+    ],
+    "template_id": "find-trust-boundary-transfer",
+    "truncated": false,
+    "tuple_count": 4
+  },
+  "template_id": "find-trust-boundary-transfer"
+}

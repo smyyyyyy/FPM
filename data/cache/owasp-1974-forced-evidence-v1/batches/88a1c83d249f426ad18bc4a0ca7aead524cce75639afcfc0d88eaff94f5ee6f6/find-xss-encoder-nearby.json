@@ -1,0 +1,11 @@
+{"#select":{"columns":[
+   {"kind":"String"}
+  ,{"kind":"Integer"}
+  ,{"name":"call","kind":"Entity"}
+  ,{"kind":"String"}]
+ ,"tuples":[
+   ["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00649.java",48,{"label":"encodeForHTML(...)"},"XSS encoder/sanitizer call near alert: encodeForHTML(...)"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02331.java",69,{"label":"encodeForHTML(...)"},"XSS encoder/sanitizer call near alert: encodeForHTML(...)"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02401.java",58,{"label":"escapeHtml(...)"},"XSS encoder/sanitizer call near alert: escapeHtml(...)"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02488.java",58,{"label":"escapeHtml(...)"},"XSS encoder/sanitizer call near alert: escapeHtml(...)"]]
+ }}

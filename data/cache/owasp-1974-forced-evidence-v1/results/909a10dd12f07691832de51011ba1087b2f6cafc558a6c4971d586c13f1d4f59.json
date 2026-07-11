@@ -1,0 +1,29 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "909a10dd12f07691832de51011ba1087b2f6cafc558a6c4971d586c13f1d4f59",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02736.java",
+    "line": 53
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

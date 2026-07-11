@@ -1,0 +1,56 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "7e3e3412aa57a79f9b2ade8c3b006b4d6c4c28a58ed00cc96ba4c93736b27769",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00929.java",
+    "line": 75
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "guess"
+        ],
+        "message": "direct constant local initialization: guess = \"ABC\"",
+        "values": [
+          "direct constant local initialization: guess = \"ABC\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: bar = \"bobs_your_uncle\"",
+        "values": [
+          "direct constant assignment: bar = \"bobs_your_uncle\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: bar = \"bobs_your_uncle\"",
+        "values": [
+          "direct constant assignment: bar = \"bobs_your_uncle\""
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 4
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

@@ -1,0 +1,30 @@
+{
+  "batch_id": "635f2ee7de18e30782f57770cde8099895325fdc47db7b2067800ed1e339d8a9",
+  "batch_request_count": 6,
+  "cache_hit": false,
+  "cache_key": "62227da3436bc9cf984753f78f7172907377c68e3e1074d7159db7d4495a85b6",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00450.java",
+    "line": 87
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "getInstance(...)",
+          "algorithm"
+        ],
+        "message": "Crypto algorithm argument: algorithm",
+        "values": [
+          "Crypto algorithm argument: algorithm"
+        ]
+      }
+    ],
+    "template_id": "find-crypto-algorithm",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-crypto-algorithm"
+}

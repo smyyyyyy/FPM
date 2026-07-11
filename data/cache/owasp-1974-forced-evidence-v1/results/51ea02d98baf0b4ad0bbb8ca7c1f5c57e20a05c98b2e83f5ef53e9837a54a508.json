@@ -1,0 +1,56 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "51ea02d98baf0b4ad0bbb8ca7c1f5c57e20a05c98b2e83f5ef53e9837a54a508",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01315.java",
+    "line": 53
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: param = \"\"",
+        "values": [
+          "direct constant assignment: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... == ...) branch=then, param = \"\", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... == ...) branch=then, param = \"\", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "num"
+        ],
+        "message": "direct constant local initialization: num = 106",
+        "values": [
+          "direct constant local initialization: num = 106"
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 4
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

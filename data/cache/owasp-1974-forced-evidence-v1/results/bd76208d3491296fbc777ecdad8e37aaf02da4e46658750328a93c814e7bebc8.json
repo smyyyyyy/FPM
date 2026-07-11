@@ -1,0 +1,38 @@
+{
+  "batch_id": "83f8aa65399c3d053e7d6a5030ae4bcf37c9054cbe42b7cd230ff5c54471b72b",
+  "batch_request_count": 6,
+  "cache_hit": false,
+  "cache_key": "bd76208d3491296fbc777ecdad8e37aaf02da4e46658750328a93c814e7bebc8",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01146.java",
+    "line": 64
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "if (...)"
+        ],
+        "message": "Guard condition near alert path: contains(...)",
+        "values": [
+          "Guard condition near alert path: contains(...)"
+        ]
+      },
+      {
+        "entities": [
+          "if (...)"
+        ],
+        "message": "Guard condition near alert path: ... && ...",
+        "values": [
+          "Guard condition near alert path: ... && ..."
+        ]
+      }
+    ],
+    "template_id": "find-validator-or-guard",
+    "truncated": false,
+    "tuple_count": 2
+  },
+  "template_id": "find-validator-or-guard"
+}

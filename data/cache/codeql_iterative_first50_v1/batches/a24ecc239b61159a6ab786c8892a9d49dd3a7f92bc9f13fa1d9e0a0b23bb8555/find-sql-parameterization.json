@@ -1,0 +1,9 @@
+{"#select":{"columns":[
+   {"kind":"String"}
+  ,{"kind":"Integer"}
+  ,{"name":"call","kind":"Entity"}
+  ,{"kind":"String"}]
+ ,"tuples":[
+   ["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01820.java",54,{"label":"executeUpdate(...)"},"SQL evidence: method=executeUpdate, arg=sql, arg_compile_time_constant=no"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01820.java",54,{"label":"executeUpdate(...)"},"SQL evidence: method=executeUpdate, arg=new String[], arg_compile_time_constant=no"]]
+ }}

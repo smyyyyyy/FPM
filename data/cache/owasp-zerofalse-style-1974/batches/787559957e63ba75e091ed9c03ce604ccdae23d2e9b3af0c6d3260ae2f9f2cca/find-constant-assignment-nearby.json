@@ -1,0 +1,20 @@
+{"#select":{"columns":[
+   {"kind":"String"}
+  ,{"kind":"Integer"}
+  ,{"name":"write","kind":"Entity"}
+  ,{"name":"message","kind":"String"}]
+ ,"tuples":[
+   ["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",30,{"label":"...=..."},"direct constant assignment: serialVersionUID = 1L"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",46,{"label":"...=..."},"direct constant assignment: param = \"\""]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",46,{"label":"...=..."},"branch assignment: if (... == ...) branch=then, param = \"\", value_compile_time_constant=yes, condition_exact_values: unavailable"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",51,{"label":"num"},"direct constant local initialization: num = 196"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",52,{"label":"...=..."},"branch assignment: if (... > ...) branch=then, bar = param, value_compile_time_constant=no, condition_exact_values: left=207, operator='>', right=200, result=true"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",53,{"label":"...=..."},"direct constant assignment: bar = \"This should never happen\""]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",53,{"label":"...=..."},"branch assignment: if (... > ...) branch=else, bar = \"This should never happen\", value_compile_time_constant=yes, condition_exact_values: left=207, operator='>', right=200, result=true"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",79,{"label":"...=..."},"branch assignment: if (...instanceof...) branch=then, input = getBytes(...), value_compile_time_constant=no, condition_exact_values: unavailable"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00618.java",89,{"label":"...=..."},"branch assignment: if (...instanceof...) branch=then, input = copyOf(...), value_compile_time_constant=no, condition_exact_values: unavailable"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01025.java",30,{"label":"...=..."},"direct constant assignment: serialVersionUID = 1L"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01025.java",43,{"label":"param"},"direct constant local initialization: param = \"\""]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01025.java",45,{"label":"...=..."},"branch assignment: if (... != ...) branch=then, param = getHeader(...), value_compile_time_constant=no, condition_exact_values: unavailable"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01025.java",51,{"label":"bar"},"derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\""]]
+ }}

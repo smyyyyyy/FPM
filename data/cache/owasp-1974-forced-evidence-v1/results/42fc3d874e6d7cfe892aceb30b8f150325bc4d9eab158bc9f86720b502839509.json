@@ -1,0 +1,200 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "42fc3d874e6d7cfe892aceb30b8f150325bc4d9eab158bc9f86720b502839509",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02253.java",
+    "line": 75
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "param"
+        ],
+        "message": "direct constant local initialization: param = \"\"",
+        "values": [
+          "direct constant local initialization: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (!...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (!...) branch=then, param = ...[...], value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\""
+        ]
+      },
+      {
+        "entities": [
+          "cmd"
+        ],
+        "message": "direct constant local initialization: cmd = \"\"",
+        "values": [
+          "direct constant local initialization: cmd = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "a1"
+        ],
+        "message": "direct constant local initialization: a1 = \"\"",
+        "values": [
+          "direct constant local initialization: a1 = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "a2"
+        ],
+        "message": "direct constant local initialization: a2 = \"\"",
+        "values": [
+          "direct constant local initialization: a2 = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: a1 = \"cmd.exe\"",
+        "values": [
+          "direct constant assignment: a1 = \"cmd.exe\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, a1 = \"cmd.exe\", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, a1 = \"cmd.exe\", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: a2 = \"/c\"",
+        "values": [
+          "direct constant assignment: a2 = \"/c\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, a2 = \"/c\", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, a2 = \"/c\", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: cmd = \"echo \"",
+        "values": [
+          "direct constant assignment: cmd = \"echo \""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, cmd = \"echo \", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, cmd = \"echo \", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, args = new String[], value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, args = new String[], value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: a1 = \"sh\"",
+        "values": [
+          "direct constant assignment: a1 = \"sh\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=else, a1 = \"sh\", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=else, a1 = \"sh\", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: a2 = \"-c\"",
+        "values": [
+          "direct constant assignment: a2 = \"-c\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=else, a2 = \"-c\", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=else, a2 = \"-c\", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=else, cmd = getOSCommandString(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=else, cmd = getOSCommandString(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": true,
+    "tuple_count": 24
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

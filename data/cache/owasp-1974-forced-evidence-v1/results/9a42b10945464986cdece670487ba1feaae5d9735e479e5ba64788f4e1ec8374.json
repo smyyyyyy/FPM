@@ -1,0 +1,83 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "9a42b10945464986cdece670487ba1feaae5d9735e479e5ba64788f4e1ec8374",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02176.java",
+    "line": 51
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: param = \"\"",
+        "values": [
+          "direct constant assignment: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... == ...) branch=then, param = \"\", value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... == ...) branch=then, param = \"\", value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "num"
+        ],
+        "message": "direct constant local initialization: num = 86",
+        "values": [
+          "direct constant local initialization: num = 86"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: bar = \"This_should_always_happen\"",
+        "values": [
+          "direct constant assignment: bar = \"This_should_always_happen\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... > ...) branch=then, bar = \"This_should_always_happen\", value_compile_time_constant=yes, condition_exact_values: left=208, operator='>', right=200, result=true",
+        "values": [
+          "branch assignment: if (... > ...) branch=then, bar = \"This_should_always_happen\", value_compile_time_constant=yes, condition_exact_values: left=208, operator='>', right=200, result=true"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... > ...) branch=else, bar = param, value_compile_time_constant=no, condition_exact_values: left=208, operator='>', right=200, result=true",
+        "values": [
+          "branch assignment: if (... > ...) branch=else, bar = param, value_compile_time_constant=no, condition_exact_values: left=208, operator='>', right=200, result=true"
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 7
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

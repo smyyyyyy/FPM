@@ -1,0 +1,8 @@
+import java
+
+from ClassInstanceExpr newExpr
+where newExpr.getLocation().getFile().getRelativePath() = {{file}}
+  and newExpr.getLocation().getStartLine() <= {{line}} + 20
+  and newExpr.getLocation().getStartLine() >= {{line}} - 20
+  and newExpr.getConstructedType().hasQualifiedName("java.util", "Random")
+select newExpr, "java.util.Random construction near alert."

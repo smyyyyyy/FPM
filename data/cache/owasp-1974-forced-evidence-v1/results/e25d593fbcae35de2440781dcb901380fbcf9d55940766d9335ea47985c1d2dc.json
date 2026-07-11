@@ -1,0 +1,38 @@
+{
+  "batch_id": "d0a2227c2b5237ccb3c950190ec86ab13c4808629e47d544122bac282d2da0f2",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "e25d593fbcae35de2440781dcb901380fbcf9d55940766d9335ea47985c1d2dc",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01818.java",
+    "line": 54
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "sql"
+        ],
+        "message": "Sink argument candidate: sql",
+        "values": [
+          "Sink argument candidate: sql"
+        ]
+      },
+      {
+        "entities": [
+          "new int[]"
+        ],
+        "message": "Sink argument candidate: new int[]",
+        "values": [
+          "Sink argument candidate: new int[]"
+        ]
+      }
+    ],
+    "template_id": "find-sink-argument-origin",
+    "truncated": false,
+    "tuple_count": 2
+  },
+  "template_id": "find-sink-argument-origin"
+}

@@ -1,0 +1,126 @@
+{
+  "templates": [
+    {
+      "id": "find-source-origin",
+      "file": "find_source_origin.ql.tmpl",
+      "description": "Find expressions around a suspected source location.",
+      "missing_evidence": ["MISSING_SOURCE_TRUST_LEVEL"],
+      "cwe_categories": ["source_sink", "trust_boundary"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-source-to-sink-path",
+      "enabled": false,
+      "file": "find_source_to_sink_path.ql.tmpl",
+      "description": "Check whether a selected source can flow to a selected sink.",
+      "missing_evidence": ["MISSING_DATAFLOW_PATH"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["source_file", "source_line", "sink_file", "sink_line"]
+    },
+    {
+      "id": "find-sink-argument-origin",
+      "file": "find_sink_argument_origin.ql.tmpl",
+      "description": "Extract the expression passed to the suspected sink.",
+      "missing_evidence": ["MISSING_SINK_ARGUMENT_ORIGIN", "MISSING_SAFE_API_USAGE_CHECK"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-sanitizer-on-path",
+      "file": "find_sanitizer_on_path.ql.tmpl",
+      "description": "Search for sanitizer-like calls near the alert path.",
+      "missing_evidence": ["MISSING_SANITIZER_CHECK"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line", "cwe"]
+    },
+    {
+      "id": "find-validator-or-guard",
+      "file": "find_validator_or_guard.ql.tmpl",
+      "description": "Search for validation or guard conditions near a suspected flow.",
+      "missing_evidence": ["MISSING_VALIDATOR_OR_GUARD", "MISSING_CONTROL_FLOW_FEASIBILITY"],
+      "cwe_categories": ["source_sink", "trust_boundary"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-constant-assignment-nearby",
+      "file": "find_constant_assignment_nearby.ql.tmpl",
+      "description": "Find compile-time constant local initializations or assignments near the alert. Useful for OWASP false positives where user input is overwritten by a constant before the sink.",
+      "missing_evidence": ["MISSING_SINK_ARGUMENT_ORIGIN", "MISSING_CONTROL_FLOW_FEASIBILITY", "MISSING_SAFE_API_USAGE_CHECK"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-sql-sink-and-construction",
+      "enabled": false,
+      "file": "find_sql_sink_and_construction.ql.tmpl",
+      "description": "Extract the SQL sink call, the SQL string construction, and variables used inside the SQL expression.",
+      "missing_evidence": ["MISSING_SAFE_API_USAGE_CHECK", "MISSING_SINK_ARGUMENT_ORIGIN"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-sql-parameterization",
+      "file": "find_sql_parameterization.ql.tmpl",
+      "description": "Extract SQL API calls and argument constant-ness/binding-like calls near the alert.",
+      "missing_evidence": ["MISSING_SAFE_API_USAGE_CHECK", "MISSING_SINK_ARGUMENT_ORIGIN"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-xss-encoder-nearby",
+      "file": "find_xss_encoder_nearby.ql.tmpl",
+      "description": "Find context-relevant HTML/JavaScript encoding calls near an XSS alert.",
+      "missing_evidence": ["MISSING_SANITIZER_CHECK"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-command-execution-arguments",
+      "file": "find_command_execution_arguments.ql.tmpl",
+      "description": "Extract command execution calls and argument constant-ness near a command injection alert.",
+      "missing_evidence": ["MISSING_SINK_ARGUMENT_ORIGIN", "MISSING_SAFE_API_USAGE_CHECK"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-path-canonical-guard",
+      "file": "find_path_canonical_guard.ql.tmpl",
+      "description": "Find canonicalization/normalization/startsWith-style path guards near a path traversal alert.",
+      "missing_evidence": ["MISSING_VALIDATOR_OR_GUARD"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-crypto-algorithm",
+      "file": "find_crypto_algorithm.ql.tmpl",
+      "description": "Extract crypto API calls and algorithm arguments.",
+      "missing_evidence": ["MISSING_API_ARGUMENT", "MISSING_ARGUMENT_ORIGIN"],
+      "cwe_categories": ["api_misuse"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-randomness-source",
+      "file": "find_randomness_source.ql.tmpl",
+      "description": "Identify random number generation API around the alert location.",
+      "missing_evidence": ["MISSING_RANDOMNESS_SOURCE"],
+      "cwe_categories": ["api_misuse"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-cookie-secure-flag",
+      "file": "find_cookie_secure_flag.ql.tmpl",
+      "description": "Check whether a cookie has setSecure(true) near creation.",
+      "missing_evidence": ["MISSING_COOKIE_SECURE_FLAG"],
+      "cwe_categories": ["security_config"],
+      "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-trust-boundary-transfer",
+      "file": "find_trust_boundary_transfer.ql.tmpl",
+      "description": "Find request-derived values stored into session or trusted state.",
+      "missing_evidence": ["MISSING_TRUST_BOUNDARY_TRANSFER"],
+      "cwe_categories": ["trust_boundary"],
+      "parameters": ["file", "line"]
+    }
+  ]
+}

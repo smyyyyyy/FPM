@@ -1,0 +1,19 @@
+{
+  "batch_id": "d0a2227c2b5237ccb3c950190ec86ab13c4808629e47d544122bac282d2da0f2",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "ef0c6d7e1c82288e2121459c65eee0e82af2fe4eff0e95190226c4098c74b92d",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02728.java",
+    "line": 56
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "No rows were returned. Treat this as absence of queried evidence, not proof that the code has no sanitizer, guard, or safe API.",
+    "facts": [],
+    "template_id": "find-sink-argument-origin",
+    "truncated": false,
+    "tuple_count": 0
+  },
+  "template_id": "find-sink-argument-origin"
+}

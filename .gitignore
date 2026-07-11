@@ -1,0 +1,32 @@
+.env
+*.pyc
+__pycache__/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Large experiment artifacts
+data/raw/
+data/interim/
+data/results/
+benchmark-db/
+BenchmarkJava/
+codeql-home/
+*.bqrs
+*.sarif
+*.sarif.json
+# CodeQL 下载工具和运行产物
+tools/codeql-bundle-*/
+tools/jdk-*/
+data/codeql-db/
+
+# 日志
+*.log
+
+# 常见临时文件
+__pycache__/
+*.pyc
+.idea/
+.vscode/

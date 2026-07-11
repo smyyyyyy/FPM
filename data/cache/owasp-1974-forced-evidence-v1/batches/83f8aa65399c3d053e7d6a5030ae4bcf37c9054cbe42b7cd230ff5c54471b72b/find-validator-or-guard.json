@@ -1,0 +1,20 @@
+{"#select":{"columns":[
+   {"kind":"String"}
+  ,{"kind":"Integer"}
+  ,{"name":"guard","kind":"Entity"}
+  ,{"kind":"String"}]
+ ,"tuples":[
+   ["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00993.java",57,{"label":"if (...)"},"Guard condition near alert path: ... != ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00993.java",59,{"label":"if (...)"},"Guard condition near alert path: equals(...)"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00993.java",84,{"label":"if (...)"},"Guard condition near alert path: ... != ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01146.java",48,{"label":"if (...)"},"Guard condition near alert path: contains(...)"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01146.java",53,{"label":"if (...)"},"Guard condition near alert path: ... && ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01207.java",46,{"label":"if (...)"},"Guard condition near alert path: ... && ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01873.java",57,{"label":"if (...)"},"Guard condition near alert path: ... != ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01873.java",59,{"label":"if (...)"},"Guard condition near alert path: equals(...)"]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01873.java",82,{"label":"if (...)"},"Guard condition near alert path: ... != ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02085.java",46,{"label":"if (...)"},"Guard condition near alert path: ... && ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02085.java",69,{"label":"if (...)"},"Guard condition near alert path: ... != ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02168.java",44,{"label":"if (...)"},"Guard condition near alert path: ... == ..."]
+  ,["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02168.java",62,{"label":"if (...)"},"Guard condition near alert path: ... != ..."]]
+ }}

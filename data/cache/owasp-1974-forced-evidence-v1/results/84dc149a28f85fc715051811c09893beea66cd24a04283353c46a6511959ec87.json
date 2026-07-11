@@ -1,0 +1,83 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "84dc149a28f85fc715051811c09893beea66cd24a04283353c46a6511959ec87",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01732.java",
+    "line": 77
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "paramval"
+        ],
+        "message": "direct constant local initialization: paramval = \"BenchmarkTest01732\" + \"=\"",
+        "values": [
+          "direct constant local initialization: paramval = \"BenchmarkTest01732\" + \"=\""
+        ]
+      },
+      {
+        "entities": [
+          "paramLoc"
+        ],
+        "message": "direct constant local initialization: paramLoc = -...",
+        "values": [
+          "direct constant local initialization: paramLoc = -..."
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, paramLoc = indexOf(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, paramLoc = indexOf(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "ampersandLoc"
+        ],
+        "message": "derived-from-constant initialization: ampersandLoc = indexOf(...); argument paramLoc initialized as -...",
+        "values": [
+          "derived-from-constant initialization: ampersandLoc = indexOf(...); argument paramLoc initialized as -..."
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = substring(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = substring(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "num"
+        ],
+        "message": "direct constant local initialization: num = 106",
+        "values": [
+          "direct constant local initialization: num = 106"
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 7
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

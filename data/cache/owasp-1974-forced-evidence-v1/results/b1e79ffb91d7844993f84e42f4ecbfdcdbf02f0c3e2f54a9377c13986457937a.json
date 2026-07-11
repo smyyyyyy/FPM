@@ -1,0 +1,19 @@
+{
+  "batch_id": "17508b210c017028aa260cdc44126b9887809dd177e337fc050a651d3234ac02",
+  "batch_request_count": 10,
+  "cache_hit": false,
+  "cache_key": "b1e79ffb91d7844993f84e42f4ecbfdcdbf02f0c3e2f54a9377c13986457937a",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01409.java",
+    "line": 67
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "No rows were returned. Treat this as absence of queried evidence, not proof that the code has no sanitizer, guard, or safe API.",
+    "facts": [],
+    "template_id": "find-path-canonical-guard",
+    "truncated": false,
+    "tuple_count": 0
+  },
+  "template_id": "find-path-canonical-guard"
+}

@@ -1,0 +1,56 @@
+{
+  "batch_id": "d0a2227c2b5237ccb3c950190ec86ab13c4808629e47d544122bac282d2da0f2",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "f8d329a76014ab7f9b006f447f63086f10dfa788a98cd1d211f377173d4ed558",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02341.java",
+    "line": 71
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "args"
+        ],
+        "message": "Sink argument candidate: args",
+        "values": [
+          "Sink argument candidate: args"
+        ]
+      },
+      {
+        "entities": [
+          "argsEnv"
+        ],
+        "message": "Sink argument candidate: argsEnv",
+        "values": [
+          "Sink argument candidate: argsEnv"
+        ]
+      },
+      {
+        "entities": [
+          "new File(...)"
+        ],
+        "message": "Sink argument candidate: new File(...)",
+        "values": [
+          "Sink argument candidate: new File(...)"
+        ]
+      },
+      {
+        "entities": [
+          "\"user.dir\""
+        ],
+        "message": "Sink argument candidate: \"user.dir\"",
+        "values": [
+          "Sink argument candidate: \"user.dir\""
+        ]
+      }
+    ],
+    "template_id": "find-sink-argument-origin",
+    "truncated": false,
+    "tuple_count": 4
+  },
+  "template_id": "find-sink-argument-origin"
+}

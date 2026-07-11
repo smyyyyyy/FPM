@@ -1,0 +1,137 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "9325790f46853d448a7e2d526cf4cf7ec5e7ca37d4c47620d71a836dd02b69d0",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02341.java",
+    "line": 71
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "param"
+        ],
+        "message": "direct constant local initialization: param = \"\"",
+        "values": [
+          "direct constant local initialization: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "flag"
+        ],
+        "message": "direct constant local initialization: flag = true",
+        "values": [
+          "direct constant local initialization: flag = true"
+        ]
+      },
+      {
+        "entities": [
+          "i"
+        ],
+        "message": "direct constant local initialization: i = 0",
+        "values": [
+          "direct constant local initialization: i = 0"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (equals(...)) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (equals(...)) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: flag = false",
+        "values": [
+          "direct constant assignment: flag = false"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (equals(...)) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (equals(...)) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\""
+        ]
+      },
+      {
+        "entities": [
+          "guess"
+        ],
+        "message": "direct constant local initialization: guess = \"ABC\"",
+        "values": [
+          "direct constant local initialization: guess = \"ABC\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: bar = \"bob\"",
+        "values": [
+          "direct constant assignment: bar = \"bob\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: bar = \"bob's your uncle\"",
+        "values": [
+          "direct constant assignment: bar = \"bob's your uncle\""
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 13
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

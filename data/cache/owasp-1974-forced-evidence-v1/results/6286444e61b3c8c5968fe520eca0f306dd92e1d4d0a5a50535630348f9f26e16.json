@@ -1,0 +1,29 @@
+{
+  "batch_id": "cf4158407931915538fd2b41a518788210c9b78bc0803a282d719c44c8790b0a",
+  "batch_request_count": 6,
+  "cache_hit": false,
+  "cache_key": "6286444e61b3c8c5968fe520eca0f306dd92e1d4d0a5a50535630348f9f26e16",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01873.java",
+    "line": 69
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "putValue(...)"
+        ],
+        "message": "Potential trust-boundary transfer near alert: putValue(...)",
+        "values": [
+          "Potential trust-boundary transfer near alert: putValue(...)"
+        ]
+      }
+    ],
+    "template_id": "find-trust-boundary-transfer",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-trust-boundary-transfer"
+}

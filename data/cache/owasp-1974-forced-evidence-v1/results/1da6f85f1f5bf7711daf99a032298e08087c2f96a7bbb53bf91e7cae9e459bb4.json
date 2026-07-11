@@ -1,0 +1,29 @@
+{
+  "batch_id": "253437a7cd4b2e11fd7ae421e94adf4ca897ed6b24582cebcbdac0617c86dae3",
+  "batch_request_count": 22,
+  "cache_hit": false,
+  "cache_key": "1da6f85f1f5bf7711daf99a032298e08087c2f96a7bbb53bf91e7cae9e459bb4",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01182.java",
+    "line": 67
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "new ProcessBuilder(...)"
+        ],
+        "message": "Command execution evidence: call=new ProcessBuilder(...), arg=argList, arg_compile_time_constant=no",
+        "values": [
+          "Command execution evidence: call=new ProcessBuilder(...), arg=argList, arg_compile_time_constant=no"
+        ]
+      }
+    ],
+    "template_id": "find-command-execution-arguments",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-command-execution-arguments"
+}

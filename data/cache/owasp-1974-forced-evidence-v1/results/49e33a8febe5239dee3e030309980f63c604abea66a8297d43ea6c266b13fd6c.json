@@ -1,0 +1,47 @@
+{
+  "batch_id": "253437a7cd4b2e11fd7ae421e94adf4ca897ed6b24582cebcbdac0617c86dae3",
+  "batch_request_count": 22,
+  "cache_hit": false,
+  "cache_key": "49e33a8febe5239dee3e030309980f63c604abea66a8297d43ea6c266b13fd6c",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00742.java",
+    "line": 67
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "exec(...)"
+        ],
+        "message": "Command execution evidence: call=exec(...), arg=... + ..., arg_compile_time_constant=no",
+        "values": [
+          "Command execution evidence: call=exec(...), arg=... + ..., arg_compile_time_constant=no"
+        ]
+      },
+      {
+        "entities": [
+          "exec(...)"
+        ],
+        "message": "Command execution evidence: call=exec(...), arg=argsEnv, arg_compile_time_constant=no",
+        "values": [
+          "Command execution evidence: call=exec(...), arg=argsEnv, arg_compile_time_constant=no"
+        ]
+      },
+      {
+        "entities": [
+          "exec(...)"
+        ],
+        "message": "Command execution evidence: call=exec(...), arg=new File(...), arg_compile_time_constant=no",
+        "values": [
+          "Command execution evidence: call=exec(...), arg=new File(...), arg_compile_time_constant=no"
+        ]
+      }
+    ],
+    "template_id": "find-command-execution-arguments",
+    "truncated": false,
+    "tuple_count": 3
+  },
+  "template_id": "find-command-execution-arguments"
+}

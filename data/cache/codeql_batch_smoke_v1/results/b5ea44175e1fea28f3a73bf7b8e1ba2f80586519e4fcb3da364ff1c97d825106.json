@@ -1,0 +1,128 @@
+{
+  "batch_id": "780f5f33eaa74bab3f4161ea4901c74e3d1881d495df45243dfdcad09ea8ca57",
+  "batch_request_count": 2,
+  "cache_hit": false,
+  "cache_key": "b5ea44175e1fea28f3a73bf7b8e1ba2f80586519e4fcb3da364ff1c97d825106",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01469.java",
+    "line": 66
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "param"
+        ],
+        "message": "direct constant local initialization: param = \"\"",
+        "values": [
+          "direct constant local initialization: param = \"\""
+        ]
+      },
+      {
+        "entities": [
+          "flag"
+        ],
+        "message": "direct constant local initialization: flag = true",
+        "values": [
+          "direct constant local initialization: flag = true"
+        ]
+      },
+      {
+        "entities": [
+          "i"
+        ],
+        "message": "direct constant local initialization: i = 0",
+        "values": [
+          "direct constant local initialization: i = 0"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (equals(...)) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (equals(...)) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = name, value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: flag = false",
+        "values": [
+          "direct constant assignment: flag = false"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (equals(...)) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (equals(...)) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, flag = false, value_compile_time_constant=yes, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"\""
+        ]
+      },
+      {
+        "entities": [
+          "g83916"
+        ],
+        "message": "direct constant local initialization: g83916 = \"barbarians_at_the_gate\"",
+        "values": [
+          "direct constant local initialization: g83916 = \"barbarians_at_the_gate\""
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument g83916 initialized as \"barbarians_at_the_gate\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument g83916 initialized as \"barbarians_at_the_gate\""
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 12
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

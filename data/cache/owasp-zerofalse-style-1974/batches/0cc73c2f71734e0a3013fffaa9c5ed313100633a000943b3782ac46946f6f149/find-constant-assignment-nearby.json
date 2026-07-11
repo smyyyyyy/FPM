@@ -1,0 +1,7 @@
+{"#select":{"columns":[
+   {"kind":"String"}
+  ,{"kind":"Integer"}
+  ,{"name":"write","kind":"Entity"}
+  ,{"name":"message","kind":"String"}]
+ ,"tuples":[]
+ }}

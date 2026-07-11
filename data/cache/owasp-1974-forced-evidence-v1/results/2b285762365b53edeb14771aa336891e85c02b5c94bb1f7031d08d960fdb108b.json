@@ -1,0 +1,83 @@
+{
+  "batch_id": "9b885ecb6d0b2547cda7b8c876af60d0aeb11c459961f5bc0461a86b138a7b45",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "2b285762365b53edeb14771aa336891e85c02b5c94bb1f7031d08d960fdb108b",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01885.java",
+    "line": 73
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "direct constant assignment: serialVersionUID = 1L",
+        "values": [
+          "direct constant assignment: serialVersionUID = 1L"
+        ]
+      },
+      {
+        "entities": [
+          "param"
+        ],
+        "message": "direct constant local initialization: param = \"noCookieValueSupplied\"",
+        "values": [
+          "direct constant local initialization: param = \"noCookieValueSupplied\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (equals(...)) branch=then, param = decode(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (equals(...)) branch=then, param = decode(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, param = decode(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, param = decode(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"noCookieValueSupplied\"",
+        "values": [
+          "derived-from-constant initialization: bar = doSomething(...); argument param initialized as \"noCookieValueSupplied\""
+        ]
+      },
+      {
+        "entities": [
+          "bar"
+        ],
+        "message": "direct constant local initialization: bar = \"alsosafe\"",
+        "values": [
+          "direct constant local initialization: bar = \"alsosafe\""
+        ]
+      },
+      {
+        "entities": [
+          "...=..."
+        ],
+        "message": "branch assignment: if (... != ...) branch=then, bar = get(...), value_compile_time_constant=no, condition_exact_values: unavailable",
+        "values": [
+          "branch assignment: if (... != ...) branch=then, bar = get(...), value_compile_time_constant=no, condition_exact_values: unavailable"
+        ]
+      }
+    ],
+    "template_id": "find-constant-assignment-nearby",
+    "truncated": false,
+    "tuple_count": 7
+  },
+  "template_id": "find-constant-assignment-nearby"
+}

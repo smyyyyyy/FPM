@@ -1,0 +1,30 @@
+{
+  "batch_id": "abd64da11dde5655ca9fb948e501d3b52b20134c17148cf58587ec9f67dc89f0",
+  "batch_request_count": 81,
+  "cache_hit": false,
+  "cache_key": "20ed3e8e8ee014c4580f9b0d99982b8bcdd757ca59c7a86c9ff6405cc5ca1233",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02292.java",
+    "line": 74
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "getInstance(...)",
+          "\"DES/CBC/PKCS5Padding\""
+        ],
+        "message": "Crypto algorithm argument: \"DES/CBC/PKCS5Padding\"",
+        "values": [
+          "Crypto algorithm argument: \"DES/CBC/PKCS5Padding\""
+        ]
+      }
+    ],
+    "template_id": "find-crypto-algorithm",
+    "truncated": false,
+    "tuple_count": 1
+  },
+  "template_id": "find-crypto-algorithm"
+}

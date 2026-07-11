@@ -1,0 +1,47 @@
+{
+  "batch_id": "d0a2227c2b5237ccb3c950190ec86ab13c4808629e47d544122bac282d2da0f2",
+  "batch_request_count": 128,
+  "cache_hit": false,
+  "cache_key": "f9aa13fd858ebd46296d4dcd33fda55a6e9a617ece186b8ffea5dcdc6810024e",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02401.java",
+    "line": 52
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "Locale.US"
+        ],
+        "message": "Sink argument candidate: Locale.US",
+        "values": [
+          "Sink argument candidate: Locale.US"
+        ]
+      },
+      {
+        "entities": [
+          "\"Formatted like: %1$s and %2$s.\""
+        ],
+        "message": "Sink argument candidate: \"Formatted like: %1$s and %2$s.\"",
+        "values": [
+          "Sink argument candidate: \"Formatted like: %1$s and %2$s.\""
+        ]
+      },
+      {
+        "entities": [
+          "obj"
+        ],
+        "message": "Sink argument candidate: obj",
+        "values": [
+          "Sink argument candidate: obj"
+        ]
+      }
+    ],
+    "template_id": "find-sink-argument-origin",
+    "truncated": false,
+    "tuple_count": 3
+  },
+  "template_id": "find-sink-argument-origin"
+}

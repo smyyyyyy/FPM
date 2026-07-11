@@ -1,0 +1,47 @@
+{
+  "batch_id": "fdad1d2fc73769a0fe5b94f47ce3ca9eaa7cfe5e99df4caa496b74f58c8dbccf",
+  "batch_request_count": 84,
+  "cache_hit": false,
+  "cache_key": "138f0e87c6db215524ef30f9e579c47a23e6beb582576679d409dd7291061364",
+  "parameters": {
+    "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02267.java",
+    "line": 57
+  },
+  "status": "ok",
+  "summary": {
+    "absence_note": "",
+    "facts": [
+      {
+        "entities": [
+          "prepareStatement(...)"
+        ],
+        "message": "SQL evidence: method=prepareStatement, arg=sql, arg_compile_time_constant=no",
+        "values": [
+          "SQL evidence: method=prepareStatement, arg=sql, arg_compile_time_constant=no"
+        ]
+      },
+      {
+        "entities": [
+          "setString(...)"
+        ],
+        "message": "SQL evidence: method=setString, arg=1, arg_compile_time_constant=yes",
+        "values": [
+          "SQL evidence: method=setString, arg=1, arg_compile_time_constant=yes"
+        ]
+      },
+      {
+        "entities": [
+          "setString(...)"
+        ],
+        "message": "SQL evidence: method=setString, arg=\"foo\", arg_compile_time_constant=yes",
+        "values": [
+          "SQL evidence: method=setString, arg=\"foo\", arg_compile_time_constant=yes"
+        ]
+      }
+    ],
+    "template_id": "find-sql-parameterization",
+    "truncated": false,
+    "tuple_count": 3
+  },
+  "template_id": "find-sql-parameterization"
+}
