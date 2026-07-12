@@ -1,8 +1,14 @@
 import java
 
-from ClassInstanceExpr newExpr
+from ClassInstanceExpr newExpr, string sourceKind
 where newExpr.getLocation().getFile().getRelativePath() = {{file}}
-  and newExpr.getLocation().getStartLine() <= {{line}} + 20
-  and newExpr.getLocation().getStartLine() >= {{line}} - 20
-  and newExpr.getConstructedType().hasQualifiedName("java.util", "Random")
-select newExpr, "java.util.Random construction near alert."
+  and newExpr.getLocation().getStartLine() <= {{line}} + 30
+  and newExpr.getLocation().getStartLine() >= {{line}} - 80
+  and (
+    newExpr.getConstructedType().hasQualifiedName("java.util", "Random") and
+    sourceKind = "java.util.Random"
+    or
+    newExpr.getConstructedType().hasQualifiedName("java.security", "SecureRandom") and
+    sourceKind = "java.security.SecureRandom"
+  )
+select newExpr, "randomness source: " + sourceKind

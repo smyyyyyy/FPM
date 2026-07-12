@@ -761,7 +761,11 @@ def _decision_is_final(decision: dict[str, Any], evidence: dict[str, Any] | None
         return False
     if evidence is None:
         return True
-    return _checklist_gate_satisfied(evidence, str(decision.get("verdict")))
+    return _checklist_gate_satisfied(
+        evidence,
+        str(decision.get("verdict")),
+        str(decision.get("confidence", "low")),
+    )
 
 
 def _decision_is_call_failure(decision: dict[str, Any]) -> bool:
@@ -816,6 +820,19 @@ FP_EVIDENCE_SLOTS: dict[str, tuple[str, ...]] = {
     "CWE-643": ("sanitizer_present", "validator_present", "constant_overwrite"),
 }
 
+FP_REQUIRED_SLOTS: dict[str, tuple[str, ...]] = {
+    "CWE-022": ("sink_identified",),
+    "CWE-078": ("sink_identified",),
+    "CWE-079": ("sink_identified",),
+    "CWE-089": ("sink_identified",),
+    "CWE-090": ("sink_identified",),
+    "CWE-327": ("api_identified",),
+    "CWE-330": ("api_identified",),
+    "CWE-501": ("source_identified",),
+    "CWE-614": ("cookie_created",),
+    "CWE-643": ("sink_identified",),
+}
+
 FP_EVIDENCE_TEMPLATES: dict[str, set[str]] = {
     "CWE-022": {"find-path-canonical-guard", "find-constant-assignment-nearby"},
     "CWE-078": {"find-command-execution-arguments", "find-constant-assignment-nearby"},
@@ -830,7 +847,9 @@ FP_EVIDENCE_TEMPLATES: dict[str, set[str]] = {
 }
 
 
-def _checklist_gate_satisfied(evidence: dict[str, Any], verdict: str = "TP") -> bool:
+def _checklist_gate_satisfied(
+    evidence: dict[str, Any], verdict: str = "TP", confidence: str = "low"
+) -> bool:
     """Apply CWE- and verdict-specific sufficiency requirements."""
     cwe = evidence.get("alert_contract", {}).get("cwe")
     slots = evidence.get("evidence_slots", {})
@@ -838,14 +857,15 @@ def _checklist_gate_satisfied(evidence: dict[str, Any], verdict: str = "TP") -> 
     if any(slots.get(slot) in {"error", "checked_error"} for slot in checklist):
         return False
 
-    required = TP_REQUIRED_SLOTS.get(str(cwe), ())
-    if any(slots.get(slot) != "yes" for slot in required):
-        return False
     if verdict == "TP":
-        return True
+        required = TP_REQUIRED_SLOTS.get(str(cwe), ())
+        return all(slots.get(slot) == "yes" for slot in required)
     if verdict != "FP":
         return False
 
+    required = FP_REQUIRED_SLOTS.get(str(cwe), ())
+    if any(slots.get(slot) != "yes" for slot in required):
+        return False
     resolved_states = {"yes"}
     if any(slots.get(slot) in resolved_states for slot in FP_EVIDENCE_SLOTS.get(str(cwe), ())):
         return True
@@ -854,7 +874,22 @@ def _checklist_gate_satisfied(evidence: dict[str, Any], verdict: str = "TP") -> 
         for item in evidence.get("query_history", [])
         if item.get("status") in {"ok", "empty"}
     }
-    return bool(successful_templates & FP_EVIDENCE_TEMPLATES.get(str(cwe), set()))
+    nonempty_templates = {
+        str(item.get("template_id"))
+        for item in evidence.get("query_history", [])
+        if item.get("status") in {"ok", "empty"}
+        and (item.get("summary", {}).get("tuple_count", 0) or 0) > 0
+    }
+    allowed = FP_EVIDENCE_TEMPLATES.get(str(cwe), set())
+    if nonempty_templates & allowed:
+        return True
+    trace = evidence.get("annotated_trace", [])
+    complete_trace = (
+        len(trace) >= 2
+        and trace[0].get("role") == "SOURCE_CANDIDATE"
+        and trace[-1].get("role") == "SINK_CANDIDATE"
+    )
+    return confidence == "high" and complete_trace and bool(successful_templates & allowed)
 
 
 def _normalize_query_request(

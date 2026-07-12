@@ -69,6 +69,26 @@ class BatchCodeQLTest(unittest.TestCase):
         self.assertIn("crypto algorithm argument", rendered)
         self.assertEqual(window, (0, 0))
 
+    def test_randomness_template_covers_source_before_sink(self) -> None:
+        template = find_template(self.manifest, "find-randomness-source")
+        self.assertIsNotNone(template)
+
+        rendered, window = render_batched_template(
+            template,
+            [
+                {
+                    "request_id": "random",
+                    "template_id": template["id"],
+                    "parameters": {"file": "Example.java", "line": 76},
+                }
+            ],
+            "templates/codeql",
+        )
+
+        self.assertIn("java.util.Random", rendered)
+        self.assertIn("java.security.SecureRandom", rendered)
+        self.assertEqual(window, (80, 30))
+
 
 if __name__ == "__main__":
     unittest.main()

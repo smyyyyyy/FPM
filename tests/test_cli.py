@@ -68,6 +68,7 @@ class ControllerTest(unittest.TestCase):
         evidence = {
             "alert_contract": {"cwe": "CWE-079"},
             "evidence_slots": {
+                "sink_identified": "yes",
                 "source_user_controlled": "yes",
                 "sink_dangerous": "yes",
                 "path_exists": "yes",
@@ -82,6 +83,7 @@ class ControllerTest(unittest.TestCase):
         evidence = {
             "alert_contract": {"cwe": "CWE-079"},
             "evidence_slots": {
+                "sink_identified": "yes",
                 "source_user_controlled": "yes",
                 "sink_dangerous": "yes",
                 "path_exists": "yes",
@@ -92,9 +94,50 @@ class ControllerTest(unittest.TestCase):
         decision = {"verdict": "FP", "sufficient": True}
         self.assertFalse(_decision_is_final(decision, evidence))
         evidence["query_history"] = [
-            {"template_id": "find-xss-encoder-nearby", "status": "ok"}
+            {
+                "template_id": "find-xss-encoder-nearby",
+                "status": "ok",
+                "summary": {"tuple_count": 1},
+            }
         ]
         self.assertTrue(_decision_is_final(decision, evidence))
+
+    def test_sql_fp_does_not_require_a_confirmed_vulnerable_path(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-089"},
+            "evidence_slots": {
+                "sink_identified": "yes",
+                "source_user_controlled": "unknown",
+                "sink_dangerous": "yes",
+                "path_exists": "unknown",
+                "safe_api_usage": "unknown",
+                "sink_argument_origin": "unknown",
+            },
+            "query_history": [
+                {
+                    "template_id": "find-sql-parameterization",
+                    "status": "ok",
+                    "summary": {"tuple_count": 2},
+                }
+            ],
+        }
+        decision = {"verdict": "FP", "sufficient": True}
+        self.assertTrue(_decision_is_final(decision, evidence))
+
+    def test_empty_query_is_not_fp_evidence(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-089"},
+            "evidence_slots": {"sink_identified": "yes"},
+            "query_history": [
+                {
+                    "template_id": "find-sql-parameterization",
+                    "status": "ok",
+                    "summary": {"tuple_count": 0},
+                }
+            ],
+        }
+        decision = {"verdict": "FP", "sufficient": True}
+        self.assertFalse(_decision_is_final(decision, evidence))
 
     def test_llm_call_failure_is_detected(self) -> None:
         self.assertTrue(
