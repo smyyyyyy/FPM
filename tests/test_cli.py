@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import unittest
+from unittest.mock import patch
 
 from fpm_benchmark.cli import (
+    _build_llm_client,
     _controller_next_query,
     _decision_is_call_failure,
     _decision_is_final,
@@ -11,6 +13,22 @@ from fpm_benchmark.cli import (
 
 
 class ControllerTest(unittest.TestCase):
+    def test_client_uses_configured_api_key_environment(self) -> None:
+        with patch.dict(
+            "os.environ",
+            {"DEEPSEEK_API_KEY": "go-key", "DEEPSEEK_OFFICIAL_API_KEY": "official-key"},
+        ):
+            client = _build_llm_client(
+                {
+                    "api_key_env": "DEEPSEEK_OFFICIAL_API_KEY",
+                    "base_url": "https://api.deepseek.com",
+                    "model": "deepseek-v4-flash",
+                }
+            )
+
+        self.assertEqual(client.api_key, "official-key")
+        self.assertEqual(client.base_url, "https://api.deepseek.com")
+
     def test_sufficient_tp_or_fp_finishes_without_query(self) -> None:
         for verdict in ("TP", "FP"):
             decision = {"verdict": verdict, "sufficient": True}

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -148,6 +149,20 @@ def args_run(args: argparse.Namespace) -> int:
     return 0
 
 
+def _build_llm_client(llm_cfg: dict[str, Any]) -> DeepSeekClient:
+    key_env = str(llm_cfg.get("api_key_env", "DEEPSEEK_API_KEY"))
+    api_key = os.environ.get(key_env)
+    if not api_key:
+        raise RuntimeError(f"{key_env} is not set")
+    return DeepSeekClient(
+        api_key=api_key,
+        model=llm_cfg.get("model", "deepseek-v4-flash"),
+        base_url=llm_cfg.get("base_url"),
+        timeout=int(llm_cfg.get("timeout_seconds", 90)),
+        max_retries=int(llm_cfg.get("max_retries", 2)),
+    )
+
+
 def cmd_parse_sarif(args: argparse.Namespace) -> None:
     cfg = read_json(args.config)
     target_cwes = set(cfg.get("experiment", {}).get("target_cwes", []))
@@ -249,12 +264,7 @@ def cmd_llm_triage(args: argparse.Namespace) -> None:
         )
         return
 
-    client = DeepSeekClient(
-        model=llm_cfg.get("model", "deepseek-v4-flash"),
-        base_url=llm_cfg.get("base_url"),
-        timeout=int(llm_cfg.get("timeout_seconds", 90)),
-        max_retries=int(llm_cfg.get("max_retries", 2)),
-    )
+    client = _build_llm_client(llm_cfg)
 
     if args.workers > 1 and args.mode == "one-shot":
         _cmd_llm_triage_parallel(args, cfg, records, allowed)
@@ -342,12 +352,7 @@ def _cmd_llm_triage_parallel(
         index, evidence = index_record
         start = time.time()
         try:
-            client = DeepSeekClient(
-                model=llm_cfg.get("model", "deepseek-v4-flash"),
-                base_url=llm_cfg.get("base_url"),
-                timeout=int(llm_cfg.get("timeout_seconds", 90)),
-                max_retries=int(llm_cfg.get("max_retries", 2)),
-            )
+            client = _build_llm_client(llm_cfg)
             decision, usage, trace = _judge_for_baseline(
                 client=client,
                 evidence=evidence,
@@ -458,12 +463,7 @@ def _cmd_llm_triage_iterative_batched(
         ) -> tuple[int, dict[str, Any], dict[str, Any], list[dict[str, Any]], float]:
             started = time.perf_counter()
             try:
-                client = DeepSeekClient(
-                    model=llm_cfg.get("model", "deepseek-v4-flash"),
-                    base_url=llm_cfg.get("base_url"),
-                    timeout=int(llm_cfg.get("timeout_seconds", 90)),
-                    max_retries=int(llm_cfg.get("max_retries", 2)),
-                )
+                client = _build_llm_client(llm_cfg)
                 decision, usage, trace = _judge_for_baseline(
                     client=client,
                     evidence=records[index],
