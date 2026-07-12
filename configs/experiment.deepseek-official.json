@@ -21,7 +21,10 @@
     "temperature": 0,
     "max_output_tokens": 4096,
     "timeout_seconds": 600,
-    "max_retries": 4
+    "max_retries": 5,
+    "retry_concurrency": 16,
+    "retry_base_seconds": 2,
+    "retry_max_seconds": 30
   },
   "experiment": {
     "max_iterations": 3,

@@ -6,6 +6,7 @@ from typing import Any
 
 
 def compute_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
+    infrastructure_errors = sum(1 for r in records if _verdict(r) == "INFRA_ERROR")
     labeled = [r for r in records if _truth(r) is not None and _verdict(r) in {"TP", "FP", "UNKNOWN"}]
     overall = _compute_group(labeled)
     by_cwe: dict[str, Any] = {}
@@ -15,7 +16,13 @@ def compute_metrics(records: list[dict[str, Any]]) -> dict[str, Any]:
         groups[cwe].append(record)
     for cwe, group in sorted(groups.items()):
         by_cwe[cwe] = _compute_group(group)
-    return {"overall": overall, "by_cwe": by_cwe, "labeled_alerts": len(labeled)}
+    return {
+        "overall": overall,
+        "by_cwe": by_cwe,
+        "labeled_alerts": len(labeled),
+        "excluded_infrastructure_errors": infrastructure_errors,
+        "experiment_complete": infrastructure_errors == 0,
+    }
 
 
 def _compute_group(records: list[dict[str, Any]]) -> dict[str, Any]:

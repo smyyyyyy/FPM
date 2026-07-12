@@ -19,6 +19,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     metrics = compute_metrics(records)
     final_verdicts = Counter(_verdict(r.get("decision", {})) for r in records)
     llm_failures = 0
+    infrastructure_error_types: Counter[str] = Counter()
     query_statuses: Counter[str] = Counter()
     query_templates: Counter[str] = Counter()
     round_verdicts: dict[int, Counter[str]] = {}
@@ -26,6 +27,10 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
     for record in records:
         if record.get("llm_error") or record.get("last_failed_decision"):
             llm_failures += 1
+        if _verdict(record.get("decision", {})) == "INFRA_ERROR":
+            infrastructure_error_types[
+                str(record.get("infrastructure_error", {}).get("type", "unknown"))
+            ] += 1
         for item in record.get("query_history", []):
             query_statuses[str(item.get("status", "unknown"))] += 1
             query_templates[str(item.get("template_id", "unknown"))] += 1
@@ -39,6 +44,7 @@ def summarize(records: list[dict[str, Any]]) -> dict[str, Any]:
             "records": len(records),
             "final_verdicts": dict(final_verdicts),
             "records_with_llm_failure": llm_failures,
+            "final_infrastructure_errors": dict(infrastructure_error_types),
             "query_statuses": dict(query_statuses),
             "query_templates": dict(query_templates),
             "round_verdicts": {

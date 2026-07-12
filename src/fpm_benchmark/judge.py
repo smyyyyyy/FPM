@@ -77,6 +77,11 @@ Rules:
   - SHA-256 or stronger, HmacSHA256+, and RSA with sufficient key length are also safe.
   - Only flag TP for CWE-327 when the algorithm is in the known-weak list above.
     If the algorithm contains 'AES', classify as FP regardless of mode or padding.
+- CWE-specific rules for trust-boundary violations (CWE-501):
+  - For session.setAttribute(name, value), untrusted data in either the attribute name or
+    the attribute value crosses the session trust boundary and supports TP.
+  - A constant value does not make the alert FP when the attribute name is attacker-controlled.
+  - URL decoding and output encoding are not validation of a session attribute name.
 - Return a single JSON object only.
 """,
 }

@@ -8,6 +8,7 @@ from fpm_benchmark.cli import (
     _controller_next_query,
     _decision_is_call_failure,
     _decision_is_final,
+    _update_slots_from_query,
     _unresolved_decision,
 )
 
@@ -65,6 +66,8 @@ class ControllerTest(unittest.TestCase):
                 "api_identified": "yes",
                 "argument_extracted": "yes",
                 "argument_is_constant": "checked_none",
+                "known_weak_api_or_algorithm": "no",
+                "known_strong_algorithm": "yes",
             },
         }
         decision = {"verdict": "FP", "sufficient": True}
@@ -97,7 +100,7 @@ class ControllerTest(unittest.TestCase):
         decision = {"verdict": "TP", "sufficient": True}
         self.assertTrue(_decision_is_final(decision, evidence))
 
-    def test_xss_fp_requires_refutation_evidence(self) -> None:
+    def test_xss_fp_requires_path_relevant_refutation_evidence(self) -> None:
         evidence = {
             "alert_contract": {"cwe": "CWE-079"},
             "evidence_slots": {
@@ -118,7 +121,40 @@ class ControllerTest(unittest.TestCase):
                 "summary": {"tuple_count": 1},
             }
         ]
+        self.assertFalse(_decision_is_final(decision, evidence))
+        evidence["evidence_slots"]["sanitizer_present"] = "yes"
         self.assertTrue(_decision_is_final(decision, evidence))
+
+    def test_nearby_query_does_not_claim_path_sanitization(self) -> None:
+        evidence = {"evidence_slots": {"sanitizer_present": "unknown"}}
+        _update_slots_from_query(
+            evidence,
+            {
+                "status": "ok",
+                "template_id": "find-xss-encoder-nearby",
+                "summary": {"tuple_count": 1},
+            },
+        )
+        self.assertEqual(evidence["evidence_slots"]["sanitizer_present"], "unknown")
+        self.assertEqual(evidence["evidence_slots"]["nearby_sanitizer_found"], "yes")
+
+    def test_constant_query_does_not_claim_validator_or_sanitizer(self) -> None:
+        evidence = {
+            "evidence_slots": {
+                "sanitizer_present": "unknown",
+                "validator_present": "unknown",
+            }
+        }
+        _update_slots_from_query(
+            evidence,
+            {
+                "status": "ok",
+                "template_id": "find-constant-assignment-nearby",
+                "summary": {"tuple_count": 2},
+            },
+        )
+        self.assertEqual(evidence["evidence_slots"]["sanitizer_present"], "unknown")
+        self.assertEqual(evidence["evidence_slots"]["validator_present"], "unknown")
 
     def test_sql_fp_does_not_require_a_confirmed_vulnerable_path(self) -> None:
         evidence = {
@@ -135,10 +171,16 @@ class ControllerTest(unittest.TestCase):
                 {
                     "template_id": "find-sql-parameterization",
                     "status": "ok",
-                    "summary": {"tuple_count": 2},
+                    "summary": {
+                        "tuple_count": 2,
+                        "facts": [
+                            {"message": "SQL evidence: method=setString, arg=value"}
+                        ],
+                    },
                 }
             ],
         }
+        _update_slots_from_query(evidence, evidence["query_history"][0])
         decision = {"verdict": "FP", "sufficient": True}
         self.assertTrue(_decision_is_final(decision, evidence))
 
@@ -238,6 +280,68 @@ class ControllerTest(unittest.TestCase):
             can_continue=True,
         )
         self.assertEqual(query["template_id"], "find-crypto-algorithm")
+
+    def test_weak_crypto_evidence_rejects_contradictory_fp(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-327"},
+            "annotated_trace": [
+                {"code": 'String algorithm = props.getProperty("alg", "DESede/ECB/PKCS5Padding");'}
+            ],
+            "evidence_slots": {
+                "api_identified": "yes",
+                "argument_extracted": "unknown",
+                "known_weak_api_or_algorithm": "unknown",
+                "known_strong_algorithm": "unknown",
+            },
+        }
+        result = {
+            "status": "ok",
+            "template_id": "find-crypto-algorithm",
+            "summary": {
+                "tuple_count": 1,
+                "facts": [{"message": "crypto algorithm argument: algorithm"}],
+            },
+        }
+        _update_slots_from_query(evidence, result)
+        self.assertEqual(evidence["evidence_slots"]["known_weak_api_or_algorithm"], "yes")
+        self.assertTrue(
+            _decision_is_final(
+                {"verdict": "TP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+        self.assertFalse(
+            _decision_is_final(
+                {"verdict": "FP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+
+    def test_trust_boundary_transfer_is_not_fp_evidence(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-501"},
+            "evidence_slots": {
+                "source_identified": "yes",
+                "source_user_controlled": "yes",
+                "trust_boundary_crossing": "yes",
+                "validator_present": "unknown",
+            },
+            "query_history": [
+                {
+                    "template_id": "find-trust-boundary-transfer",
+                    "status": "ok",
+                    "summary": {"tuple_count": 1},
+                }
+            ],
+        }
+        self.assertFalse(
+            _decision_is_final(
+                {"verdict": "FP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+        self.assertTrue(
+            _decision_is_final(
+                {"verdict": "TP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
 
 
 if __name__ == "__main__":

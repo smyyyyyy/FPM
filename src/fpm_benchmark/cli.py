@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
@@ -19,7 +20,7 @@ from .cwe_profiles import profile_for
 from .evidence import enrich_core_evidence_slots
 from .ground_truth import load_expected_results
 from .judge import judge_once
-from .llm import DeepSeekClient
+from .llm import DeepSeekClient, LLMInfrastructureError
 from .metrics import compute_metrics
 from .query_templates import allowed_templates_for_llm, load_template_manifest
 from .sarif import normalized_alerts_to_evidence, sarif_to_evidence
@@ -160,6 +161,9 @@ def _build_llm_client(llm_cfg: dict[str, Any]) -> DeepSeekClient:
         base_url=llm_cfg.get("base_url"),
         timeout=int(llm_cfg.get("timeout_seconds", 90)),
         max_retries=int(llm_cfg.get("max_retries", 2)),
+        retry_concurrency=int(llm_cfg.get("retry_concurrency", 16)),
+        retry_base_seconds=float(llm_cfg.get("retry_base_seconds", 2)),
+        retry_max_seconds=float(llm_cfg.get("retry_max_seconds", 30)),
     )
 
 
@@ -365,7 +369,7 @@ def _cmd_llm_triage_parallel(
             evidence["llm_usage_total"] = _sum_usage([usage])
         except Exception as exc:
             evidence["decision"] = {
-                "verdict": "UNKNOWN",
+                "verdict": "INFRA_ERROR",
                 "confidence": "low",
                 "sufficient": False,
                 "missing_evidence": ["LLM_CALL_FAILED"],
@@ -373,6 +377,11 @@ def _cmd_llm_triage_parallel(
                 "reason_summary": f"LLM call failed: {exc}",
             }
             evidence["llm_error"] = str(exc)
+            evidence["infrastructure_error"] = {
+                "type": getattr(exc, "error_type", "client_error"),
+                "attempts": getattr(exc, "attempts", 1),
+                "retryable": getattr(exc, "retryable", False),
+            }
         evidence["runtime_seconds"] = time.time() - start
         return index, evidence
 
@@ -472,8 +481,10 @@ def _cmd_llm_triage_iterative_batched(
                     llm_cfg=llm_cfg,
                 )
             except Exception as exc:
+                error_type = exc.error_type if isinstance(exc, LLMInfrastructureError) else "client_error"
+                attempts = exc.attempts if isinstance(exc, LLMInfrastructureError) else 1
                 decision = {
-                    "verdict": "UNKNOWN",
+                    "verdict": "INFRA_ERROR",
                     "confidence": "low",
                     "sufficient": False,
                     "missing_evidence": ["LLM_CALL_FAILED"],
@@ -483,6 +494,11 @@ def _cmd_llm_triage_iterative_batched(
                 usage = {}
                 trace = [{"decision": decision, "usage": usage, "baseline": args.baseline}]
                 records[index]["llm_error"] = str(exc)
+                records[index]["infrastructure_error"] = {
+                    "type": error_type,
+                    "attempts": attempts,
+                    "retryable": getattr(exc, "retryable", False),
+                }
             return index, decision, usage, trace, time.perf_counter() - started
 
         workers = max(1, args.workers)
@@ -509,16 +525,12 @@ def _cmd_llm_triage_iterative_batched(
                 evidence.setdefault("llm_trace", []).append(trace_item)
 
             if _decision_is_call_failure(decision):
-                previous = evidence.get("decision")
                 evidence["last_failed_decision"] = decision
-                if (
-                    isinstance(previous, dict)
-                    and previous.get("verdict") in {"TP", "FP", "UNKNOWN"}
-                    and not _decision_is_call_failure(previous)
-                ):
-                    # Infrastructure failures must not erase a successful earlier verdict.
-                    finalized += 1
-                    continue
+                # A failed re-judgment does not validate an earlier candidate
+                # that failed the gate. Keep it for diagnosis only.
+                previous = evidence.get("decision")
+                if isinstance(previous, dict) and not _decision_is_call_failure(previous):
+                    evidence["pre_failure_decision"] = previous
                 evidence["decision"] = decision
                 finalized += 1
                 continue
@@ -638,6 +650,7 @@ def _cmd_llm_triage_iterative_batched(
         "direct_after_first_round": direct_after_first_round,
         "queried_alerts": len(queried_alerts),
         "verdict_counts": verdict_counts,
+        "infrastructure_errors": verdict_counts.get("INFRA_ERROR", 0),
         "llm_rounds": llm_rounds,
         "query": {
             "requests": query_requests,
@@ -761,11 +774,35 @@ def _decision_is_final(decision: dict[str, Any], evidence: dict[str, Any] | None
         return False
     if evidence is None:
         return True
+    if not _decision_is_semantically_consistent(decision, evidence):
+        return False
     return _checklist_gate_satisfied(
         evidence,
         str(decision.get("verdict")),
         str(decision.get("confidence", "low")),
     )
+
+
+def _decision_is_semantically_consistent(
+    decision: dict[str, Any], evidence: dict[str, Any]
+) -> bool:
+    cwe = evidence.get("alert_contract", {}).get("cwe")
+    verdict = decision.get("verdict")
+    slots = evidence.get("evidence_slots", {})
+    if cwe == "CWE-327":
+        if verdict == "FP" and slots.get("known_weak_api_or_algorithm") == "yes":
+            return False
+        if verdict == "TP" and slots.get("known_strong_algorithm") == "yes":
+            return False
+    if (
+        cwe == "CWE-501"
+        and verdict == "FP"
+        and slots.get("source_user_controlled") == "yes"
+        and slots.get("trust_boundary_crossing") == "yes"
+        and slots.get("validator_present") != "yes"
+    ):
+        return False
+    return True
 
 
 def _decision_is_call_failure(decision: dict[str, Any]) -> bool:
@@ -795,7 +832,7 @@ TP_REQUIRED_SLOTS: dict[str, tuple[str, ...]] = {
     "CWE-079": ("source_user_controlled", "sink_dangerous", "path_exists"),
     "CWE-089": ("source_user_controlled", "sink_dangerous", "path_exists"),
     "CWE-090": ("source_user_controlled", "sink_dangerous", "path_exists"),
-    "CWE-327": ("api_identified", "argument_extracted"),
+    "CWE-327": ("api_identified", "argument_extracted", "known_weak_api_or_algorithm"),
     "CWE-330": ("api_identified", "randomness_source_known"),
     "CWE-501": ("source_user_controlled", "trust_boundary_crossing"),
     "CWE-614": ("cookie_created", "secure_flag_checked"),
@@ -813,7 +850,7 @@ FP_EVIDENCE_SLOTS: dict[str, tuple[str, ...]] = {
     ),
     "CWE-089": ("safe_api_usage", "sink_argument_origin", "constant_overwrite"),
     "CWE-090": ("sanitizer_present", "validator_present", "constant_overwrite"),
-    "CWE-327": ("argument_extracted", "argument_is_constant"),
+    "CWE-327": ("known_strong_algorithm",),
     "CWE-330": ("randomness_source_known",),
     "CWE-501": ("validator_present",),
     "CWE-614": ("secure_flag_set",),
@@ -841,7 +878,7 @@ FP_EVIDENCE_TEMPLATES: dict[str, set[str]] = {
     "CWE-090": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
     "CWE-327": {"find-crypto-algorithm"},
     "CWE-330": {"find-randomness-source"},
-    "CWE-501": {"find-trust-boundary-transfer", "find-validator-or-guard"},
+    "CWE-501": {"find-validator-or-guard"},
     "CWE-614": {"find-cookie-secure-flag"},
     "CWE-643": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
 }
@@ -874,22 +911,17 @@ def _checklist_gate_satisfied(
         for item in evidence.get("query_history", [])
         if item.get("status") in {"ok", "empty"}
     }
-    nonempty_templates = {
-        str(item.get("template_id"))
-        for item in evidence.get("query_history", [])
-        if item.get("status") in {"ok", "empty"}
-        and (item.get("summary", {}).get("tuple_count", 0) or 0) > 0
-    }
-    allowed = FP_EVIDENCE_TEMPLATES.get(str(cwe), set())
-    if nonempty_templates & allowed:
-        return True
     trace = evidence.get("annotated_trace", [])
     complete_trace = (
         len(trace) >= 2
         and trace[0].get("role") == "SOURCE_CANDIDATE"
         and trace[-1].get("role") == "SINK_CANDIDATE"
     )
-    return confidence == "high" and complete_trace and bool(successful_templates & allowed)
+    # Nearby calls, guards, or assignments are candidates for LLM reasoning,
+    # not proof that the same value was sanitized or overwritten on the path.
+    return confidence == "high" and complete_trace and bool(
+        successful_templates & FP_EVIDENCE_TEMPLATES.get(str(cwe), set())
+    )
 
 
 def _normalize_query_request(
@@ -963,35 +995,28 @@ SLOT_UPDATE_BY_TEMPLATE: dict[str, dict[str, str]] = {
         "randomness_source_known": "yes",
     },
     "find-sql-parameterization": {
-        "safe_api_usage": "yes",
         "sink_argument_origin": "yes",
     },
     "find-sql-sink-and-construction": {
         "sink_argument_origin": "yes",
-        "safe_api_usage": "yes",
     },
     "find-constant-assignment-nearby": {
-        "source_user_controlled": "yes",
-        "sanitizer_present": "yes",
-        "validator_present": "yes",
+        "nearby_constant_assignment_found": "yes",
     },
     "find-xss-encoder-nearby": {
-        "sanitizer_present": "yes",
+        "nearby_sanitizer_found": "yes",
     },
     "find-command-execution-arguments": {
         "sink_argument_origin": "yes",
-        "sanitizer_present": "yes",
     },
     "find-path-canonical-guard": {
-        "validator_present": "yes",
-        "sanitizer_present": "yes",
+        "nearby_validator_found": "yes",
     },
     "find-validator-or-guard": {
-        "validator_present": "yes",
-        "sanitizer_present": "yes",
+        "nearby_validator_found": "yes",
     },
     "find-sanitizer-on-path": {
-        "sanitizer_present": "yes",
+        "nearby_sanitizer_found": "yes",
     },
     "find-sink-argument-origin": {
         "sink_argument_origin": "yes",
@@ -1023,6 +1048,16 @@ def _update_slots_from_query(evidence: dict[str, Any], result: dict[str, Any]) -
         for slot, value in updates.items():
             if slots.get(slot) in {None, "unknown", "no"}:
                 slots[slot] = value
+        if template_id == "find-sql-parameterization" and _sql_query_proves_safe_usage(result):
+            slots["safe_api_usage"] = "yes"
+        if template_id == "find-crypto-algorithm":
+            algorithm_class = _classify_crypto_algorithm(evidence, result)
+            if algorithm_class == "weak":
+                slots["known_weak_api_or_algorithm"] = "yes"
+                slots["known_strong_algorithm"] = "no"
+            elif algorithm_class == "strong":
+                slots["known_weak_api_or_algorithm"] = "no"
+                slots["known_strong_algorithm"] = "yes"
     elif status == "ok" and tuple_count == 0:
         # Query ran but found nothing. A non-empty query result was
         # still produced (e.g., "no sanitizer found"), so mark the
@@ -1039,6 +1074,36 @@ def _update_slots_from_query(evidence: dict[str, Any], result: dict[str, Any]) -
         for slot, value in updates.items():
             if slots.get(slot) in {None, "unknown"}:
                 slots[slot] = "error"
+
+
+def _sql_query_proves_safe_usage(result: dict[str, Any]) -> bool:
+    summary = result.get("summary", {})
+    facts = summary.get("facts", []) if isinstance(summary, dict) else []
+    messages = "\n".join(str(fact.get("message", "")) for fact in facts)
+    if re.search(r"method=set(?:String|Int|Long|Object)\b", messages):
+        return True
+    return bool(
+        re.search(
+            r"method=prepareStatement\b[^\n]*arg_compile_time_constant=yes",
+            messages,
+        )
+    )
+
+
+def _classify_crypto_algorithm(evidence: dict[str, Any], result: dict[str, Any]) -> str | None:
+    trace_text = "\n".join(
+        str(item.get("code", "")) + " " + str(item.get("message", ""))
+        for item in evidence.get("annotated_trace", [])
+    )
+    summary = result.get("summary", {})
+    facts = summary.get("facts", []) if isinstance(summary, dict) else []
+    fact_text = "\n".join(str(item.get("message", "")) for item in facts)
+    text = trace_text + "\n" + fact_text
+    if re.search(r"(?i)\b(?:DESede|TripleDES|DES|RC4|RC2|MD5|SHA-?1)\b", text):
+        return "weak"
+    if re.search(r"(?i)\b(?:AES|SHA-?(?:256|384|512)|HmacSHA(?:256|384|512))\b", text):
+        return "strong"
+    return None
 
 
 def _location_query_params(evidence: dict[str, Any]) -> dict[str, Any] | None:

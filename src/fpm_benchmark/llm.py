@@ -2,11 +2,30 @@ from __future__ import annotations
 
 import json
 import os
+import random
 import re
+import threading
 import time
 import urllib.error
 import urllib.request
 from typing import Any
+
+
+class LLMInfrastructureError(RuntimeError):
+    def __init__(self, message: str, *, error_type: str, attempts: int, retryable: bool) -> None:
+        super().__init__(message)
+        self.error_type = error_type
+        self.attempts = attempts
+        self.retryable = retryable
+
+
+_retry_limiters: dict[int, threading.BoundedSemaphore] = {}
+_retry_limiters_lock = threading.Lock()
+
+
+def _retry_limiter(limit: int) -> threading.BoundedSemaphore:
+    with _retry_limiters_lock:
+        return _retry_limiters.setdefault(limit, threading.BoundedSemaphore(limit))
 
 
 class DeepSeekClient:
@@ -17,12 +36,18 @@ class DeepSeekClient:
         model: str = "deepseek-v4-flash",
         timeout: int = 90,
         max_retries: int = 2,
+        retry_concurrency: int = 16,
+        retry_base_seconds: float = 2.0,
+        retry_max_seconds: float = 30.0,
     ) -> None:
         self.api_key = api_key or os.environ.get("DEEPSEEK_API_KEY")
         self.base_url = (base_url or os.environ.get("DEEPSEEK_BASE_URL") or "https://api.deepseek.com").rstrip("/")
         self.model = model
         self.timeout = timeout
         self.max_retries = max_retries
+        self.retry_limiter = _retry_limiter(max(1, retry_concurrency))
+        self.retry_base_seconds = max(0.0, retry_base_seconds)
+        self.retry_max_seconds = max(self.retry_base_seconds, retry_max_seconds)
         if not self.api_key:
             raise RuntimeError("DEEPSEEK_API_KEY is not set")
 
@@ -53,10 +78,16 @@ class DeepSeekClient:
         )
         last_error: Exception | None = None
         malformed_content = ""
-        for attempt in range(self.max_retries + 1):
+        retry_after_seconds: float | None = None
+        attempts = self.max_retries + 1
+        for attempt in range(attempts):
             try:
-                with urllib.request.urlopen(request, timeout=self.timeout) as response:
-                    raw = json.loads(response.read().decode("utf-8"))
+                # Initial calls use the experiment worker limit. Retries use a
+                # much smaller shared lane to avoid a synchronized retry storm.
+                limiter = self.retry_limiter if attempt else _NullSemaphore()
+                with limiter:
+                    with urllib.request.urlopen(request, timeout=self.timeout) as response:
+                        raw = json.loads(response.read().decode("utf-8"))
                 content = raw["choices"][0]["message"]["content"]
                 try:
                     return extract_json_object(content), raw.get("usage", {})
@@ -66,12 +97,21 @@ class DeepSeekClient:
             except urllib.error.HTTPError as exc:
                 body = exc.read().decode("utf-8", errors="replace")
                 if exc.code < 500 and exc.code != 429:
-                    raise RuntimeError(f"DeepSeek API error {exc.code}: {body}") from exc
+                    raise LLMInfrastructureError(
+                        f"DeepSeek API error {exc.code}: {body}",
+                        error_type=f"http_{exc.code}",
+                        attempts=attempt + 1,
+                        retryable=False,
+                    ) from exc
                 last_error = RuntimeError(f"DeepSeek API error {exc.code}: {body}")
+                retry_after_seconds = _retry_after(exc)
             except (urllib.error.URLError, TimeoutError, OSError) as exc:
                 last_error = exc
             if attempt < self.max_retries:
-                time.sleep(2**attempt)
+                delay = min(self.retry_max_seconds, self.retry_base_seconds * (2**attempt))
+                if retry_after_seconds is not None:
+                    delay = max(delay, min(self.retry_max_seconds, retry_after_seconds))
+                time.sleep(delay * random.uniform(0.75, 1.25))
 
         if malformed_content or isinstance(last_error, ValueError):
             parsed = {
@@ -83,7 +123,45 @@ class DeepSeekClient:
                 "reason_summary": "LLM response was not valid JSON: " + malformed_content[:300],
             }
             return parsed, {}
-        raise RuntimeError(f"DeepSeek API request failed after retries: {last_error}") from last_error
+        raise LLMInfrastructureError(
+            f"DeepSeek API request failed after retries: {last_error}",
+            error_type=_error_type(last_error),
+            attempts=attempts,
+            retryable=True,
+        ) from last_error
+
+
+class _NullSemaphore:
+    def __enter__(self) -> None:
+        return None
+
+    def __exit__(self, *args: object) -> None:
+        return None
+
+
+def _error_type(error: Exception | None) -> str:
+    text = str(error or "").lower()
+    if "429" in text:
+        return "rate_limit"
+    if "connection reset" in text:
+        return "connection_reset"
+    if "ssl" in text or "eof" in text:
+        return "tls_error"
+    if "timed out" in text or "timeout" in text:
+        return "timeout"
+    if re.search(r"\b5\d\d\b", text):
+        return "server_error"
+    return "network_error"
+
+
+def _retry_after(error: urllib.error.HTTPError) -> float | None:
+    value = error.headers.get("Retry-After") if error.headers else None
+    if value is None:
+        return None
+    try:
+        return max(0.0, float(value))
+    except ValueError:
+        return None
 
 
 def extract_json_object(text: str) -> dict[str, Any]:

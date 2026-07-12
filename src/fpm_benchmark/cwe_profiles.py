@@ -163,6 +163,9 @@ def default_slots(category: str) -> dict[str, str]:
             "safe_api_usage": "unknown",
             "framework_semantics_known": "unknown",
             "constant_overwrite": "unknown",
+            "nearby_sanitizer_found": "unknown",
+            "nearby_validator_found": "unknown",
+            "nearby_constant_assignment_found": "unknown",
         }
     if category == "api_misuse":
         return {
@@ -170,6 +173,7 @@ def default_slots(category: str) -> dict[str, str]:
             "argument_extracted": "unknown",
             "argument_is_constant": "unknown",
             "known_weak_api_or_algorithm": "unknown",
+            "known_strong_algorithm": "unknown",
             "security_sensitive_use": "unknown",
             "randomness_source_known": "unknown",
         }

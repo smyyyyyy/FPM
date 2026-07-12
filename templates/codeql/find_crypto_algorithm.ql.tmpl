@@ -1,10 +1,24 @@
 import java
 
-from MethodCall call, Expr arg
+predicate argumentDetail(Expr arg, string detail) {
+  detail = "argument=" + arg.toString()
+  or
+  exists(VarAccess access, LocalVariableDeclExpr decl, MethodCall propertyCall, Expr fallback |
+    arg = access and
+    decl.getVariable() = access.getVariable() and
+    propertyCall = decl.getInit() and
+    propertyCall.getMethod().getName() = "getProperty" and
+    fallback = propertyCall.getArgument(1) and
+    detail = "argument=" + arg.toString() + "; property_default=" + fallback.toString()
+  )
+}
+
+from MethodCall call, Expr arg, string detail
 where call.getLocation().getFile().getRelativePath() = {{file}}
   and call.getLocation().getStartLine() = {{line}}
   and call.getMethod().getName() = "getInstance"
   and arg = call.getArgument(0)
+  and argumentDetail(arg, detail)
 select call,
   arg,
-  "crypto algorithm argument: " + arg.toString()
+  "crypto algorithm argument: " + detail
