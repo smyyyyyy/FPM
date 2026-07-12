@@ -153,3 +153,15 @@ If `--codeql-db` is omitted, the iterative mode records the requested query but 
 - `Selective Accuracy`: accuracy on non-Unknown decisions.
 
 See [docs/experiment_protocol.md](docs/experiment_protocol.md) for the full experimental design.
+
+## Frozen OWASP Experiment
+
+The `experiment-v1` method and artifact identifiers are documented in
+[docs/experiment_v1.md](docs/experiment_v1.md). Run the DeepSeek V4 Flash experiment with:
+
+```bash
+WORKERS=8 ./scripts/run_owasp_1974_deepseek.sh
+```
+
+Use a lower worker count if the provider returns HTTP 429 responses. A valid experiment must
+finish with zero LLM and CodeQL infrastructure failures.

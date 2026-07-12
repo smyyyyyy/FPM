@@ -61,6 +61,12 @@ Rules:
 - Treat empty query results as missing queried evidence, not proof of safety.
 - Mark FP only when the evidence strongly supports suppression; otherwise use TP or UNKNOWN.
 
+- When a sink argument is read from a collection, account for intervening collection mutations
+  only when the supplied evidence shows a complete, unambiguous operation sequence. A proven
+  constant element is strong FP evidence and a proven user-controlled element supports TP.
+  If aliases, branches, loops, unknown indices, or missing operations prevent a reliable element
+  origin, do not simulate missing behavior; request evidence or return UNKNOWN.
+
 - CWE-specific rules for cryptographic algorithms (CWE-327):
   - The following are BROKEN/RISKY algorithms that support TP: DES, DESede (TripleDES),
     RC4, RC2, MD5, SHA1, and deprecated SSL/TLS protocols.

@@ -86,6 +86,11 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--repeats", type=int, default=3)
     p.add_argument("--query-cache-dir", default="data/cache/codeql_queries")
     p.add_argument("--runtime-report")
+    p.add_argument(
+        "--resume",
+        action="store_true",
+        help="Resume an interrupted iterative run from decisions saved in --input.",
+    )
     p.set_defaults(func=cmd_llm_triage)
 
     p = sub.add_parser("raw-codeql", help="Create a raw CodeQL baseline decision file.")
@@ -392,17 +397,52 @@ def _cmd_llm_triage_iterative_batched(
     run_started = time.perf_counter()
     llm_cfg = cfg.get("llm", {})
     codeql_cfg = cfg.get("codeql", {})
-    active = list(range(len(records)))
+    completed_iterations = 0
+    if args.resume:
+        completed_iterations = max(
+            (
+                int(item.get("iteration", 0))
+                for record in records
+                for item in record.get("llm_trace", [])
+            ),
+            default=0,
+        )
+        pending = [
+            index
+            for index, record in enumerate(records)
+            if not _decision_is_final(record.get("decision", {}), record)
+        ]
+        ready_after_query = {
+            index
+            for index, record in enumerate(records)
+            if any(
+                int(item.get("iteration", 0)) == completed_iterations
+                for item in record.get("query_history", [])
+            )
+        }
+        active = [index for index in pending if index in ready_after_query]
+        for index in pending:
+            if index not in ready_after_query:
+                records[index]["decision"] = _unresolved_decision(records[index]["decision"])
+    else:
+        active = list(range(len(records)))
     llm_rounds: list[dict[str, Any]] = []
     query_rounds: list[dict[str, Any]] = []
-    queried_alerts: set[int] = set()
-    direct_after_first_round = 0
+    queried_alerts: set[int] = {
+        index for index, record in enumerate(records) if record.get("query_history")
+    }
+    direct_after_first_round = sum(
+        1
+        for record in records
+        if len(record.get("llm_trace", [])) == 1
+        and _decision_is_final(record.get("decision", {}), record)
+    ) if args.resume else 0
 
     for record in records:
-        record["llm_usage_total"] = {}
-        record["runtime_breakdown"] = {"llm_seconds": 0.0, "query_count": 0}
+        record.setdefault("llm_usage_total", {})
+        record.setdefault("runtime_breakdown", {"llm_seconds": 0.0, "query_count": 0})
 
-    for iteration in range(max_iterations):
+    for iteration in range(completed_iterations, max_iterations):
         if not active:
             break
         round_started = time.perf_counter()
@@ -460,12 +500,28 @@ def _cmd_llm_triage_iterative_batched(
         for index in active:
             evidence = records[index]
             decision, usage, trace, duration = round_results[index]
-            evidence["decision"] = decision
             evidence["llm_usage_total"] = _sum_usage([evidence.get("llm_usage_total", {}), usage])
             evidence["runtime_breakdown"]["llm_seconds"] += duration
             for trace_item in trace:
                 trace_item["iteration"] = iteration + 1
                 evidence.setdefault("llm_trace", []).append(trace_item)
+
+            if _decision_is_call_failure(decision):
+                previous = evidence.get("decision")
+                evidence["last_failed_decision"] = decision
+                if (
+                    isinstance(previous, dict)
+                    and previous.get("verdict") in {"TP", "FP", "UNKNOWN"}
+                    and not _decision_is_call_failure(previous)
+                ):
+                    # Infrastructure failures must not erase a successful earlier verdict.
+                    finalized += 1
+                    continue
+                evidence["decision"] = decision
+                finalized += 1
+                continue
+
+            evidence["decision"] = decision
 
             if _decision_is_final(decision, evidence):
                 finalized += 1
@@ -473,6 +529,7 @@ def _cmd_llm_triage_iterative_batched(
                     direct_after_first_round += 1
                 continue
             if iteration + 1 >= max_iterations:
+                evidence["decision"] = _unresolved_decision(decision)
                 finalized += 1
                 continue
 
@@ -489,6 +546,7 @@ def _cmd_llm_triage_iterative_batched(
             next_query = _normalize_query_request(next_query, evidence, manifest)
             template_id = next_query.get("template_id")
             if not template_id:
+                evidence["decision"] = _unresolved_decision(decision)
                 finalized += 1
                 continue
             request_id = f"{index}:{iteration + 1}"
@@ -569,6 +627,8 @@ def _cmd_llm_triage_iterative_batched(
     cache_misses = sum(item.get("cache_misses", 0) for item in query_rounds)
     runtime_report = {
         "mode": "iterative_batched",
+        "resumed": bool(args.resume),
+        "resume_start_iteration": completed_iterations if args.resume else None,
         "alerts": len(records),
         "workers": max(1, args.workers),
         "max_iterations": max_iterations,
@@ -699,26 +759,100 @@ def _decision_is_final(decision: dict[str, Any], evidence: dict[str, Any] | None
         return False
     if evidence is None:
         return True
-    return _checklist_gate_satisfied(evidence)
+    return _checklist_gate_satisfied(evidence, str(decision.get("verdict")))
 
 
-def _checklist_gate_satisfied(evidence: dict[str, Any]) -> bool:
-    """Check whether CWE-specific sufficiency checklist slots are all filled.
+def _decision_is_call_failure(decision: dict[str, Any]) -> bool:
+    missing = decision.get("missing_evidence", [])
+    return isinstance(missing, list) and "LLM_CALL_FAILED" in missing
 
-    Even when the LLM reports sufficient=true, the controller forces a
-    supplementary query if mandatory evidence slots remain 'unknown'.
-    """
+
+def _unresolved_decision(decision: dict[str, Any]) -> dict[str, Any]:
+    missing = decision.get("missing_evidence", [])
+    unresolved = list(missing) if isinstance(missing, list) else []
+    if "MAX_ITERATIONS_WITHOUT_SUFFICIENT_EVIDENCE" not in unresolved:
+        unresolved.append("MAX_ITERATIONS_WITHOUT_SUFFICIENT_EVIDENCE")
+    return {
+        "verdict": "UNKNOWN",
+        "confidence": "low",
+        "sufficient": False,
+        "missing_evidence": unresolved,
+        "next_query": {"template_id": None, "parameters": {}, "reason": ""},
+        "reason_summary": "Maximum evidence rounds reached without satisfying the sufficiency gate.",
+        "candidate_decision": decision,
+    }
+
+
+TP_REQUIRED_SLOTS: dict[str, tuple[str, ...]] = {
+    "CWE-022": ("source_user_controlled", "sink_dangerous", "path_exists"),
+    "CWE-078": ("source_user_controlled", "sink_dangerous", "path_exists"),
+    "CWE-079": ("source_user_controlled", "sink_dangerous", "path_exists"),
+    "CWE-089": ("source_user_controlled", "sink_dangerous", "path_exists"),
+    "CWE-090": ("source_user_controlled", "sink_dangerous", "path_exists"),
+    "CWE-327": ("api_identified", "argument_extracted"),
+    "CWE-330": ("api_identified", "randomness_source_known"),
+    "CWE-501": ("source_user_controlled", "trust_boundary_crossing"),
+    "CWE-614": ("cookie_created", "secure_flag_checked"),
+    "CWE-643": ("source_user_controlled", "sink_dangerous", "path_exists"),
+}
+
+FP_EVIDENCE_SLOTS: dict[str, tuple[str, ...]] = {
+    "CWE-022": ("validator_present", "constant_overwrite", "sink_argument_origin"),
+    "CWE-078": ("sanitizer_present", "constant_overwrite", "sink_argument_origin"),
+    "CWE-079": (
+        "sanitizer_present",
+        "framework_semantics_known",
+        "constant_overwrite",
+        "sink_argument_origin",
+    ),
+    "CWE-089": ("safe_api_usage", "sink_argument_origin", "constant_overwrite"),
+    "CWE-090": ("sanitizer_present", "validator_present", "constant_overwrite"),
+    "CWE-327": ("argument_extracted", "argument_is_constant"),
+    "CWE-330": ("randomness_source_known",),
+    "CWE-501": ("validator_present",),
+    "CWE-614": ("secure_flag_set",),
+    "CWE-643": ("sanitizer_present", "validator_present", "constant_overwrite"),
+}
+
+FP_EVIDENCE_TEMPLATES: dict[str, set[str]] = {
+    "CWE-022": {"find-path-canonical-guard", "find-constant-assignment-nearby"},
+    "CWE-078": {"find-command-execution-arguments", "find-constant-assignment-nearby"},
+    "CWE-079": {"find-xss-encoder-nearby", "find-constant-assignment-nearby"},
+    "CWE-089": {"find-sql-parameterization", "find-constant-assignment-nearby"},
+    "CWE-090": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
+    "CWE-327": {"find-crypto-algorithm"},
+    "CWE-330": {"find-randomness-source"},
+    "CWE-501": {"find-trust-boundary-transfer", "find-validator-or-guard"},
+    "CWE-614": {"find-cookie-secure-flag"},
+    "CWE-643": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
+}
+
+
+def _checklist_gate_satisfied(evidence: dict[str, Any], verdict: str = "TP") -> bool:
+    """Apply CWE- and verdict-specific sufficiency requirements."""
     cwe = evidence.get("alert_contract", {}).get("cwe")
-    profile = profile_for(cwe)
-    checklist = profile.get("sufficiency_checklist", [])
-    if not checklist:
-        return True
     slots = evidence.get("evidence_slots", {})
-    query_history = {item.get("template_id") for item in evidence.get("query_history", [])}
-    for slot in checklist:
-        if slots.get(slot) in {None, "unknown"}:
-            return False
-    return True
+    checklist = profile_for(cwe).get("sufficiency_checklist", [])
+    if any(slots.get(slot) in {"error", "checked_error"} for slot in checklist):
+        return False
+
+    required = TP_REQUIRED_SLOTS.get(str(cwe), ())
+    if any(slots.get(slot) != "yes" for slot in required):
+        return False
+    if verdict == "TP":
+        return True
+    if verdict != "FP":
+        return False
+
+    resolved_states = {"yes"}
+    if any(slots.get(slot) in resolved_states for slot in FP_EVIDENCE_SLOTS.get(str(cwe), ())):
+        return True
+    successful_templates = {
+        str(item.get("template_id"))
+        for item in evidence.get("query_history", [])
+        if item.get("status") in {"ok", "empty"}
+    }
+    return bool(successful_templates & FP_EVIDENCE_TEMPLATES.get(str(cwe), set()))
 
 
 def _normalize_query_request(
@@ -758,6 +892,7 @@ def _next_mandatory_query(evidence: dict[str, Any]) -> dict[str, Any] | None:
         "CWE-079": ["find-xss-encoder-nearby", "find-constant-assignment-nearby"],
         "CWE-078": ["find-command-execution-arguments", "find-constant-assignment-nearby"],
         "CWE-022": ["find-path-canonical-guard", "find-constant-assignment-nearby"],
+        "CWE-090": ["find-sanitizer-on-path", "find-constant-assignment-nearby"],
         "CWE-327": ["find-crypto-algorithm"],
         "CWE-330": ["find-randomness-source"],
         "CWE-501": ["find-trust-boundary-transfer"],
@@ -863,10 +998,10 @@ def _update_slots_from_query(evidence: dict[str, Any], result: dict[str, Any]) -
             if slots.get(slot) in {None, "unknown"}:
                 slots[slot] = "checked_none"
     else:
-        # Query failed; still mark slots as checked to avoid infinite loop
+        # Preserve the distinction between missing evidence and failed collection.
         for slot, value in updates.items():
             if slots.get(slot) in {None, "unknown"}:
-                slots[slot] = "checked_error"
+                slots[slot] = "error"
 
 
 def _location_query_params(evidence: dict[str, Any]) -> dict[str, Any] | None:
