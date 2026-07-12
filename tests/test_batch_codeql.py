@@ -49,6 +49,26 @@ class BatchCodeQLTest(unittest.TestCase):
         )
         self.assertEqual(first, second)
 
+    def test_crypto_template_supports_batch_rendering(self) -> None:
+        template = find_template(self.manifest, "find-crypto-algorithm")
+        self.assertIsNotNone(template)
+
+        rendered, window = render_batched_template(
+            template,
+            [
+                {
+                    "request_id": "crypto",
+                    "template_id": template["id"],
+                    "parameters": {"file": "Example.java", "line": 42},
+                }
+            ],
+            "templates/codeql",
+        )
+
+        self.assertIn("batchTarget(targetFile, targetLine)", rendered)
+        self.assertIn("crypto algorithm argument", rendered)
+        self.assertEqual(window, (0, 0))
+
 
 if __name__ == "__main__":
     unittest.main()

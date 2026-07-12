@@ -1,17 +1,10 @@
 import java
 
 from MethodCall call, Expr arg
-where
-  call.getLocation().getFile().getRelativePath() = {{file}}
+where call.getLocation().getFile().getRelativePath() = {{file}}
   and call.getLocation().getStartLine() = {{line}}
   and call.getMethod().getName() = "getInstance"
   and arg = call.getArgument(0)
-select
-  call,
+select call,
   arg,
-  arg.toString() + " | isCompileTimeConstant=" + arg.isCompileTimeConstant().toString() +
-    " | algoName=" + (
-      if arg.(StringLiteral).exists()
-      then arg.(StringLiteral).getValue()
-      else arg.toString()
-    end)
+  "crypto algorithm argument: " + arg.toString()

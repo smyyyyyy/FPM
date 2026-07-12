@@ -15,6 +15,7 @@ from .diagnostic import (
     select_diagnostic_cohort,
 )
 from .cwe_profiles import profile_for
+from .evidence import enrich_core_evidence_slots
 from .ground_truth import load_expected_results
 from .judge import judge_once
 from .llm import DeepSeekClient
@@ -439,6 +440,7 @@ def _cmd_llm_triage_iterative_batched(
     ) if args.resume else 0
 
     for record in records:
+        enrich_core_evidence_slots(record)
         record.setdefault("llm_usage_total", {})
         record.setdefault("runtime_breakdown", {"llm_seconds": 0.0, "query_count": 0})
 

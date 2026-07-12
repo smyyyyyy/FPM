@@ -2,10 +2,43 @@ from __future__ import annotations
 
 import unittest
 
-from fpm_benchmark.evidence import compact_for_llm, strip_java_comments
+from fpm_benchmark.evidence import (
+    build_evidence_slots,
+    compact_for_llm,
+    enrich_core_evidence_slots,
+    strip_java_comments,
+)
 
 
 class EvidenceTest(unittest.TestCase):
+    def test_source_sink_trace_backfills_user_control_and_path(self) -> None:
+        trace = [
+            {"role": "SOURCE_CANDIDATE", "semantic_tag": "user_input_candidate"},
+            {"role": "SINK_CANDIDATE", "semantic_tag": "response_sink_candidate"},
+        ]
+
+        slots = build_evidence_slots("CWE-079", trace)
+
+        self.assertEqual(slots["source_user_controlled"], "yes")
+        self.assertEqual(slots["sink_dangerous"], "yes")
+        self.assertEqual(slots["path_exists"], "yes")
+
+    def test_enrichment_updates_legacy_slots_and_missing_evidence(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-022"},
+            "annotated_trace": [
+                {"role": "SOURCE_CANDIDATE"},
+                {"role": "SINK_CANDIDATE"},
+            ],
+            "evidence_slots": {"source_user_controlled": "unknown"},
+            "missing_evidence": ["MISSING_SOURCE_TRUST_LEVEL"],
+        }
+
+        enrich_core_evidence_slots(evidence)
+
+        self.assertEqual(evidence["evidence_slots"]["source_user_controlled"], "yes")
+        self.assertNotIn("MISSING_SOURCE_TRUST_LEVEL", evidence["missing_evidence"])
+
     def test_strip_java_comments_preserves_literals_and_lines(self) -> None:
         source = (
             'String url = "https://example.test/a/*b*/"; // label-like comment\n'
