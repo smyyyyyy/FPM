@@ -19,8 +19,13 @@ METRICS="${RUN_DIR}/metrics.json"
 SUMMARY="${RUN_DIR}/summary.json"
 LOG="${RUN_DIR}/run.log"
 DATABASE="${DATABASE:-data/codeql-db/owasp-benchmark-java-1.2-codeql-2.25.5-frozen}"
-WORKERS="${WORKERS:-32}"
+WORKERS="${WORKERS:-8}"
 CACHE_DIR="data/cache/$(basename "$RUN_DIR")"
+
+if ! [[ "$WORKERS" =~ ^[0-9]+$ ]] || (( WORKERS < 1 || WORKERS > 16 )); then
+  echo "WORKERS must be an integer between 1 and 16 (got: $WORKERS)" >&2
+  exit 2
+fi
 
 if [[ ! -f "$DECISIONS" ]] || [[ "$(wc -l < "$DECISIONS")" -ne 1974 ]]; then
   echo "Expected 1974 saved decisions at $DECISIONS" >&2
@@ -61,8 +66,15 @@ fi
 
 export PYTHONPATH="${PYTHONPATH:-}:src"
 
+exec 9>"$DATABASE/.fpm-experiment.lock"
+if ! flock -n 9; then
+  echo "Another experiment still holds the CodeQL database lock" >&2
+  echo "Stop the earlier run before resuming this one" >&2
+  exit 5
+fi
+
 echo "resuming: $RUN_DIR" | tee -a "$LOG"
-flock "$DATABASE/.fpm-experiment.lock" python3 -u -m fpm_benchmark.cli llm-triage \
+python3 -u -m fpm_benchmark.cli llm-triage \
   --input "$DECISIONS" \
   --out "$DECISIONS" \
   --config "$CONFIG" \

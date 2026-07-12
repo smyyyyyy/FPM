@@ -16,7 +16,7 @@ INPUT="${INPUT:-data/interim/owasp-zerofalse-style-1974.labeled.jsonl}"
 BASE_CONFIG="${BASE_CONFIG:-configs/experiment.opencode-go.local.json}"
 DATABASE="${DATABASE:-data/codeql-db/owasp-benchmark-java-1.2-codeql-2.25.5-frozen}"
 RUN_ID="${RUN_ID:-$(date +%Y%m%d-%H%M%S)}"
-WORKERS="${WORKERS:-32}"
+WORKERS="${WORKERS:-8}"
 MODEL_SLUG="$(printf '%s' "$MODEL" | tr -cs 'A-Za-z0-9._-' '-')"
 RUN_DIR="data/results/owasp-1974-${MODEL_SLUG}-${RUN_ID}"
 DECISIONS="${RUN_DIR}/decisions.jsonl"
@@ -26,6 +26,11 @@ SUMMARY="${RUN_DIR}/summary.json"
 LOG="${RUN_DIR}/run.log"
 CONFIG="${RUN_DIR}/experiment.json"
 CACHE_DIR="data/cache/owasp-1974-${MODEL_SLUG}-${RUN_ID}"
+
+if ! [[ "$WORKERS" =~ ^[0-9]+$ ]] || (( WORKERS < 1 || WORKERS > 16 )); then
+  echo "WORKERS must be an integer between 1 and 16 (got: $WORKERS)" >&2
+  exit 2
+fi
 
 if [[ ! -f "$INPUT" ]] || [[ "$(wc -l < "$INPUT")" -ne 1974 ]]; then
   echo "Expected a 1974-record input at $INPUT" >&2
@@ -42,6 +47,13 @@ fi
 
 mkdir -p "$RUN_DIR" "$CACHE_DIR"
 export PYTHONPATH="${PYTHONPATH:-}:src"
+
+exec 9>"$DATABASE/.fpm-experiment.lock"
+if ! flock -n 9; then
+  echo "Another experiment still holds the CodeQL database lock" >&2
+  echo "Stop the earlier run before starting this one" >&2
+  exit 5
+fi
 
 python3 - "$BASE_CONFIG" "$CONFIG" "$MODEL" <<'PY'
 import json
@@ -60,7 +72,7 @@ echo "model: $MODEL"
 echo "run directory: $RUN_DIR"
 echo "workers: $WORKERS"
 
-flock "$DATABASE/.fpm-experiment.lock" python3 -u -m fpm_benchmark.cli llm-triage \
+python3 -u -m fpm_benchmark.cli llm-triage \
   --input "$INPUT" \
   --out "$DECISIONS" \
   --config "$CONFIG" \
