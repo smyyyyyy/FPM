@@ -1,0 +1,1057 @@
+{
+  "count": 150,
+  "source_input": "data/interim/owasp-zerofalse-style-1974.labeled.jsonl",
+  "source_decisions": "data/results/owasp-1974-deepseek-official-v4-flash-20260712-205104/decisions.jsonl",
+  "records": [
+    {
+      "alert_id": "000160e3b903314e",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-022",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "002292475ab6091c",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-022",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0037f32f59d82d4d",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-079",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "003ab8eb6b901c40",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "00567dcfea9c8fa8",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-022",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "005b710d7e48a47f",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "009161079f62ca14",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0093d8407858a6f7",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-327",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "00c3beb27ef276f4",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-089",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0126299df40b74f0",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0192f769b18d86e9",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "01fc32ea6ac54192",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-501",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "020649413c4add13",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "020bb5e54686583c",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-090",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "02154c1bbeddd1fb",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-078",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "02833438594cdee3",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "02e8b1ed50ee49a1",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-327",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "03049a68078bc8d9",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "0333cc68c55b8246",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-643",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "037572c8cf04aa69",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-614",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "040bf453dd457aff",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "066e835212341b77",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "07284e74c9135247",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "07cc68e542e45148",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "0a74922d975ed6e1",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0a943e0dc23e9c30",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0ac2792b35c60211",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-022",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "0d53ed1265ab71f4",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "0def7a32ae42dd35",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-643",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "1003277c33b9b02f",
+      "reason": "correct_tp_control",
+      "cwe": "CWE-090",
+      "ground_truth": "TP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "10b91d32c907ed6a",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "117256be08b5c5d4",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-022",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "1392f60468853fc1",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "15d1e31215b7223f",
+      "reason": "correct_fp_control",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "FP"
+    },
+    {
+      "alert_id": "171bd8cc0597b72c",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "190c7d08a4d8e6f5",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "1abc6f34e49ffdaf",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "1abdf409283ee85b",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "1e11dbd3f21ea7af",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "2426103a57324d5e",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "24f6a8e4c12f3c32",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "252db77ed6b75613",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "25ebeb974cda891d",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "26bb909d671f1ebb",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "272abb48c4337c8b",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "2ad5461d63c347f7",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "2b3b29618de11e59",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "2eb3fd8de233079a",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "2eb8481a5d2ccdee",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "2eb916b0f88229d1",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "307bc49c9656afb5",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "361f9016c0ac6e45",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-022",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "3a504f1449f2fdd8",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "3bb3f757c26a649e",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-090",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "3f26cdff685d26a9",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "4087a05cf59b026c",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "416363a312ebc185",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "434c2d2c784b8e8d",
+      "reason": "final_unknown",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "4455c7b894462d65",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "46daea27194b8933",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "480abfea61cfdc4e",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "4913baf065274f48",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "4d50ad661339d846",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "5258ae7fd503b80c",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "549eff5f33b079ad",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "5a20198bea2aecd3",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "5f29d7606416ba2d",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "60268357720dbce8",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "60ecc75feb55744e",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "614d400fd97bb8a8",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-090",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "6a2b42cc10b14256",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "6bf7df94b8e1d161",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-022",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "6f8dffe1a7368a4f",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "6fe2bfcc267b84a7",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "716b33573aca57f1",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "73505d5511953310",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "75656e0e07d04dc7",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "7afc233b0708075e",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "7c55a967ce067c3f",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "7ce6d33215580cb6",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "7d33d2c30040a890",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "7ffe6dbf65feaaae",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "823f391eec93668a",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "838eb72ab34e9029",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "858c79a370a90a53",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "85afde760fd3281d",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "873464b2002300a4",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "881b7dfd1b6bd172",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-078",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "8b672fbc936456c0",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "8c05106c9767b176",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "8c145dc8c2e6282c",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "8c52d163c4453ebc",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "8dbb16c6fa272068",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "90b2870a2e948d27",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "912b266feb4f6143",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "9264f6f8759850a9",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "967e9bf43c9a4cb9",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "96a264b818cee7cd",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "9748ad84c417d1ac",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "986fd89c590eb6b6",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "996ea8ab534dfcb2",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "99dbee6802e21ba5",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "9a6f53f09e66f061",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "9b1ee57a73706ae4",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "9d39dcb00a5aa85f",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "9f147a7326fcf8f6",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "a2c2d52672bef50f",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "a379308de83afc13",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "a5b43c4e402eef77",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "a637753d6e6a59e6",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "a8567c1dd6af9cba",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "a976ebbb23f13828",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "ad6c4392cbf7600d",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "b19e17c2198994fd",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-090",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "b33e868060f41ed8",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "b40b38021e8a44c5",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "b4462bd23c714b3a",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "b534cf40e0b6b3dc",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "b5674d4462d2e0b3",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "bc40d6f97cb04f42",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "be5f1fc913eb07fb",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "c6ff0efd050cd812",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "c9e50636b985d523",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "ca7628ebc808f219",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "cc1ce41afe70fa52",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "cc94886b985e68d4",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "d5ac621dc180c336",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "d6bc1565e9ab3377",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "d793574e51f64e2e",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "d8c77f5a691e5e65",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "da80a40aadbe46bd",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "db500cb1755f50d3",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "dc3db5d20903dc35",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "de0d9eae965fe135",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "ded6c80a969f5bb6",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "defbd3d2debd5690",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "e2981f56cd03095f",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "e47db5f76d210e09",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "e4e248d72bc6a053",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "e77da8160c14b231",
+      "reason": "final_unknown",
+      "cwe": "CWE-330",
+      "ground_truth": "TP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "e9a3c6cdb2f7e277",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "ebd65a34751e4400",
+      "reason": "false_positive_retained_as_tp",
+      "cwe": "CWE-079",
+      "ground_truth": "FP",
+      "previous_verdict": "TP"
+    },
+    {
+      "alert_id": "f0d0280118c95e32",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "f4864aa78089b5a8",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "f56fff3987045d65",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "f6554c625c040ba9",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "fccd623014f53f6e",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "fde38c239c841204",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "ff7941c070734533",
+      "reason": "final_unknown",
+      "cwe": "CWE-089",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    },
+    {
+      "alert_id": "ffeae757140b1f3b",
+      "reason": "final_unknown",
+      "cwe": "CWE-501",
+      "ground_truth": "FP",
+      "previous_verdict": "UNKNOWN"
+    }
+  ]
+}

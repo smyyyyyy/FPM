@@ -8,6 +8,7 @@ from fpm_benchmark.cli import (
     _controller_next_query,
     _decision_is_call_failure,
     _decision_is_final,
+    _gate_observation,
     _update_slots_from_query,
     _unresolved_decision,
 )
@@ -341,6 +342,61 @@ class ControllerTest(unittest.TestCase):
             _decision_is_final(
                 {"verdict": "TP", "sufficient": True, "confidence": "high"}, evidence
             )
+        )
+
+    def test_session_origin_query_can_support_high_confidence_fp(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-501"},
+            "annotated_trace": [
+                {"role": "SOURCE_CANDIDATE"},
+                {"role": "SINK_CANDIDATE"},
+            ],
+            "evidence_slots": {
+                "source_identified": "yes",
+                "source_user_controlled": "yes",
+                "trust_boundary_crossing": "yes",
+                "validator_present": "unknown",
+            },
+            "query_history": [
+                {
+                    "template_id": "find-session-attribute-origin",
+                    "status": "ok",
+                    "summary": {"tuple_count": 3},
+                }
+            ],
+        }
+        self.assertTrue(
+            _decision_is_final(
+                {"verdict": "FP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+        self.assertFalse(
+            _decision_is_final(
+                {"verdict": "FP", "sufficient": True, "confidence": "medium"}, evidence
+            )
+        )
+
+    def test_gate_observation_uses_controller_finality(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-327"},
+            "evidence_slots": {
+                "api_identified": "yes",
+                "argument_extracted": "yes",
+                "known_weak_api_or_algorithm": "yes",
+            },
+            "query_history": [{"template_id": "find-crypto-algorithm", "status": "ok"}],
+        }
+        observation = _gate_observation(
+            {"verdict": "TP", "sufficient": True, "confidence": "high"}, evidence
+        )
+        self.assertEqual(
+            observation,
+            {
+                "semantic_consistent": True,
+                "checklist_satisfied": True,
+                "controller_final": True,
+                "query_count_before_decision": 1,
+            },
         )
 
 

@@ -87,7 +87,30 @@ class BatchCodeQLTest(unittest.TestCase):
 
         self.assertIn("java.util.Random", rendered)
         self.assertIn("java.security.SecureRandom", rendered)
+        self.assertIn('getName() = "random"', rendered)
+        self.assertIn('sourceKind = "java.lang.Math.random"', rendered)
         self.assertEqual(window, (80, 30))
+
+    def test_session_origin_template_supports_batch_rendering(self) -> None:
+        template = find_template(self.manifest, "find-session-attribute-origin")
+        self.assertIsNotNone(template)
+        rendered, window = render_batched_template(
+            template,
+            [
+                {
+                    "request_id": "session",
+                    "template_id": template["id"],
+                    "parameters": {"file": "Example.java", "line": 50},
+                }
+            ],
+            "templates/codeql",
+        )
+        self.assertIn("session sink arguments", rendered)
+        self.assertIn("producer return", rendered)
+        self.assertIn("operationDefinesSinkArgument", rendered)
+        self.assertIn("sameReceiver", rendered)
+        self.assertIn('hasQualifiedName("javax.servlet.http", "HttpSession")', rendered)
+        self.assertEqual(window, (100, 10))
 
 
 if __name__ == "__main__":

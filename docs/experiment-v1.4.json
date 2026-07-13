@@ -1,0 +1,95 @@
+{
+  "version": "experiment-v1.4",
+  "date": "2026-07-13",
+  "status": "targeted-regression-passed",
+  "method_changes": [
+    "Recognize java.lang.Math.random() in the CWE-330 randomness template.",
+    "Extract session attribute arguments, local origins, callee returns, and ordered collection operations for CWE-501.",
+    "Require high-confidence, trace-complete, query-backed evidence before accepting CWE-501 FP decisions.",
+    "Record semantic, checklist, and controller-final gate observations in every future LLM trace.",
+    "Separate pre-gate candidate-round diagnostics from deployable final metrics."
+  ],
+  "validation": {
+    "error_audit_150": {
+      "run": "data/results/owasp-error-audit-150-deepseek-v4-flash-20260713-135108",
+      "provider": "opencode-go",
+      "model": "deepseek-v4-flash",
+      "records": 150,
+      "ground_truth": {
+        "TP": 36,
+        "FP": 114
+      },
+      "final_verdicts": {
+        "TP": 47,
+        "FP": 53,
+        "UNKNOWN": 50
+      },
+      "tp_retention": 1.0,
+      "fp_reduction": 0.4649122807017544,
+      "unknown_rate": 0.3333333333333333,
+      "llm_failures": 0,
+      "correct_control_records": 22,
+      "control_regressions": 0,
+      "method_revision": "pre-final broad collection evidence; exploratory comparison only",
+      "comparison_report": "data/reports/owasp-error-audit-150-v1.4-comparison.json",
+      "sha256": {
+        "decisions.jsonl": "6d304dc75a93108a573b5e4cbc383c6007568862245fa5ccc7620768454c5996",
+        "runtime.json": "fd9c163008c77e020edfac1063507f4bb39da37d56523c82d8128afaed82f027",
+        "metrics.json": "0e249d8fdd0162c2ad8e4d0297a0e500842227a4ea87a3cebeac386229f79b72"
+      }
+    },
+    "cwe501_all_107": {
+      "run": "data/results/owasp-cwe501-107-go-v1.4-final",
+      "provider": "opencode-go",
+      "model": "deepseek-v4-flash",
+      "records": 107,
+      "ground_truth": {
+        "TP": 83,
+        "FP": 24
+      },
+      "final_verdicts": {
+        "TP": 87,
+        "FP": 20,
+        "UNKNOWN": 0
+      },
+      "tp_retention": 1.0,
+      "fp_reduction": 0.8333333333333334,
+      "unknown_rate": 0.0,
+      "llm_failures": 0,
+      "sha256": {
+        "decisions.jsonl": "fad0fb89086ae03a0b83f8f5ffef37517fdd42e9a5020d0be03860cf5b2dd44d",
+        "runtime.json": "27922bfe795a394cf9ba353254907c707fdf71c4579e18e74149e2f4ef136939",
+        "metrics.json": "53e5e7473744ebd8910b2fcef0a7c4c430dc01bfa402d825a5eecb7a4a4c8496"
+      }
+    },
+    "historical_false_negative_regressions": {
+      "provider": "opencode-go",
+      "alert_ids": [
+        "e7b80f287ce524be",
+        "bd1d3490219b7611"
+      ],
+      "expected": [
+        "TP",
+        "TP"
+      ],
+      "observed": [
+        "TP",
+        "TP"
+      ]
+    },
+    "local": {
+      "unit_tests": 39,
+      "codeql_template_requests": 132,
+      "codeql_template_errors": 0,
+      "cwe330_nonempty": "25/25",
+      "cwe501_nonempty": "107/107"
+    }
+  },
+  "limitations": [
+    "The 150-alert comparison changes provider from DeepSeek official to OpenCode Go, so its delta is not a method-only causal estimate.",
+    "Two OpenCode Go runs using the pre-final template over the same 24 CWE-501 false positives filtered 17 and 22 alerts respectively; temperature zero does not remove service-side run variance.",
+    "The v1.4 evidence changes have not yet been rerun over all 1974 alerts.",
+    "The CWE-089 audit is heuristic and all 61 disputed records still require manual semantic adjudication."
+  ],
+  "next_gate": "Run a same-provider repeated experiment before treating v1.4 gains as publication evidence."
+}

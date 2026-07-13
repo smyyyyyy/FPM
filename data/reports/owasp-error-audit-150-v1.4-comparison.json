@@ -1,0 +1,470 @@
+{
+  "scope": "fixed 150-alert error-audit cohort",
+  "method_revision": "pre-final broad collection evidence; exploratory comparison only",
+  "manifest": "data/reports/owasp-error-audit-150.manifest.json",
+  "previous_run": "data/results/owasp-1974-deepseek-official-v4-flash-20260712-205104/decisions.jsonl",
+  "current_run": "data/results/owasp-error-audit-150-deepseek-v4-flash-20260713-135108/decisions.jsonl",
+  "providers": {
+    "previous": "deepseek-official",
+    "current": "opencode-go",
+    "changed": true
+  },
+  "causal_interpretation": "Provider changed between runs; observed deltas combine method and provider effects and must not be reported as a method-only causal gain.",
+  "previous": {
+    "count": 150,
+    "original_tp": 36,
+    "original_fp": 114,
+    "final_verdicts": {
+      "FP": 11,
+      "TP": 48,
+      "UNKNOWN": 91
+    },
+    "tp_retention": 1.0,
+    "fp_reduction": 0.09649122807017543,
+    "post_filter_precision": 0.2589928057553957,
+    "unknown_rate": 0.6066666666666667,
+    "removed_tp": 0,
+    "removed_fp": 11
+  },
+  "current": {
+    "count": 150,
+    "original_tp": 36,
+    "original_fp": 114,
+    "final_verdicts": {
+      "FP": 53,
+      "TP": 47,
+      "UNKNOWN": 50
+    },
+    "tp_retention": 1.0,
+    "fp_reduction": 0.4649122807017544,
+    "post_filter_precision": 0.3711340206185567,
+    "unknown_rate": 0.3333333333333333,
+    "removed_tp": 0,
+    "removed_fp": 53
+  },
+  "deltas": {
+    "tp_retention": 0.0,
+    "fp_reduction": 0.368421052631579,
+    "post_filter_precision": 0.11214121486316103,
+    "unknown_rate": -0.2733333333333334
+  },
+  "runtime_rounds": [
+    {
+      "finalized": 9,
+      "input_alerts": 150,
+      "query_requests": 141,
+      "round": 1,
+      "wall_seconds": 206.2988832100002
+    },
+    {
+      "finalized": 72,
+      "input_alerts": 141,
+      "query_requests": 69,
+      "round": 2,
+      "wall_seconds": 188.32861813499994
+    },
+    {
+      "finalized": 69,
+      "input_alerts": 69,
+      "query_requests": 0,
+      "round": 3,
+      "wall_seconds": 96.32363830999998
+    }
+  ],
+  "candidate_round_metrics": {
+    "1": {
+      "count": 150,
+      "original_tp": 36,
+      "original_fp": 114,
+      "final_verdicts": {
+        "FP": 90,
+        "TP": 59,
+        "UNKNOWN": 1
+      },
+      "tp_retention": 1.0,
+      "fp_reduction": 0.7894736842105263,
+      "post_filter_precision": 0.6,
+      "unknown_rate": 0.006666666666666667,
+      "removed_tp": 0,
+      "removed_fp": 90,
+      "alerts_evaluated_this_round": 150
+    },
+    "2": {
+      "count": 150,
+      "original_tp": 36,
+      "original_fp": 114,
+      "final_verdicts": {
+        "FP": 83,
+        "TP": 67
+      },
+      "tp_retention": 1.0,
+      "fp_reduction": 0.7280701754385965,
+      "post_filter_precision": 0.5373134328358209,
+      "unknown_rate": 0.0,
+      "removed_tp": 0,
+      "removed_fp": 83,
+      "alerts_evaluated_this_round": 141,
+      "fp_reduction_gain": -0.06140350877192979,
+      "unknown_rate_change": -0.006666666666666667
+    },
+    "3": {
+      "count": 150,
+      "original_tp": 36,
+      "original_fp": 114,
+      "final_verdicts": {
+        "FP": 81,
+        "TP": 69
+      },
+      "tp_retention": 1.0,
+      "fp_reduction": 0.7105263157894737,
+      "post_filter_precision": 0.5217391304347826,
+      "unknown_rate": 0.0,
+      "removed_tp": 0,
+      "removed_fp": 81,
+      "alerts_evaluated_this_round": 69,
+      "fp_reduction_gain": -0.01754385964912286,
+      "unknown_rate_change": 0.0
+    }
+  },
+  "candidate_round_metrics_warning": "These snapshots use raw LLM candidates from llm_trace before the conservative gate. They diagnose candidate evolution and are not deployable final metrics.",
+  "transitions": {
+    "FP:FP->FP": 11,
+    "FP:TP->FP": 29,
+    "FP:TP->TP": 7,
+    "FP:TP->UNKNOWN": 1,
+    "FP:UNKNOWN->FP": 13,
+    "FP:UNKNOWN->TP": 4,
+    "FP:UNKNOWN->UNKNOWN": 49,
+    "TP:TP->TP": 11,
+    "TP:UNKNOWN->TP": 25
+  },
+  "controls": {
+    "count": 22,
+    "regression_count": 0,
+    "regressions": []
+  },
+  "by_cwe": {
+    "CWE-022": {
+      "previous": {
+        "count": 7,
+        "original_tp": 2,
+        "original_fp": 5,
+        "final_verdicts": {
+          "FP": 2,
+          "TP": 5
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.4,
+        "post_filter_precision": 0.4,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 2
+      },
+      "current": {
+        "count": 7,
+        "original_tp": 2,
+        "original_fp": 5,
+        "final_verdicts": {
+          "FP": 5,
+          "TP": 2
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 1.0,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 5
+      }
+    },
+    "CWE-078": {
+      "previous": {
+        "count": 10,
+        "original_tp": 1,
+        "original_fp": 9,
+        "final_verdicts": {
+          "FP": 2,
+          "TP": 7,
+          "UNKNOWN": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.2222222222222222,
+        "post_filter_precision": 0.125,
+        "unknown_rate": 0.1,
+        "removed_tp": 0,
+        "removed_fp": 2
+      },
+      "current": {
+        "count": 10,
+        "original_tp": 1,
+        "original_fp": 9,
+        "final_verdicts": {
+          "FP": 7,
+          "TP": 2,
+          "UNKNOWN": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.7777777777777778,
+        "post_filter_precision": 0.3333333333333333,
+        "unknown_rate": 0.1,
+        "removed_tp": 0,
+        "removed_fp": 7
+      }
+    },
+    "CWE-079": {
+      "previous": {
+        "count": 8,
+        "original_tp": 1,
+        "original_fp": 7,
+        "final_verdicts": {
+          "FP": 2,
+          "TP": 6
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.2857142857142857,
+        "post_filter_precision": 0.16666666666666666,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 2
+      },
+      "current": {
+        "count": 8,
+        "original_tp": 1,
+        "original_fp": 7,
+        "final_verdicts": {
+          "FP": 7,
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 1.0,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 7
+      }
+    },
+    "CWE-089": {
+      "previous": {
+        "count": 64,
+        "original_tp": 1,
+        "original_fp": 63,
+        "final_verdicts": {
+          "FP": 2,
+          "TP": 12,
+          "UNKNOWN": 50
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.031746031746031744,
+        "post_filter_precision": 0.016129032258064516,
+        "unknown_rate": 0.78125,
+        "removed_tp": 0,
+        "removed_fp": 2
+      },
+      "current": {
+        "count": 64,
+        "original_tp": 1,
+        "original_fp": 63,
+        "final_verdicts": {
+          "FP": 12,
+          "TP": 4,
+          "UNKNOWN": 48
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.19047619047619047,
+        "post_filter_precision": 0.019230769230769232,
+        "unknown_rate": 0.75,
+        "removed_tp": 0,
+        "removed_fp": 12
+      }
+    },
+    "CWE-090": {
+      "previous": {
+        "count": 5,
+        "original_tp": 1,
+        "original_fp": 4,
+        "final_verdicts": {
+          "FP": 1,
+          "TP": 4
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.25,
+        "post_filter_precision": 0.25,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 1
+      },
+      "current": {
+        "count": 5,
+        "original_tp": 1,
+        "original_fp": 4,
+        "final_verdicts": {
+          "FP": 3,
+          "TP": 2
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.75,
+        "post_filter_precision": 0.5,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 3
+      }
+    },
+    "CWE-327": {
+      "previous": {
+        "count": 2,
+        "original_tp": 1,
+        "original_fp": 1,
+        "final_verdicts": {
+          "FP": 1,
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 1.0,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 1
+      },
+      "current": {
+        "count": 2,
+        "original_tp": 1,
+        "original_fp": 1,
+        "final_verdicts": {
+          "FP": 1,
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 1.0,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 1
+      }
+    },
+    "CWE-330": {
+      "previous": {
+        "count": 26,
+        "original_tp": 26,
+        "original_fp": 0,
+        "final_verdicts": {
+          "TP": 1,
+          "UNKNOWN": 25
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": null,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.9615384615384616,
+        "removed_tp": 0,
+        "removed_fp": 0
+      },
+      "current": {
+        "count": 26,
+        "original_tp": 26,
+        "original_fp": 0,
+        "final_verdicts": {
+          "TP": 26
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": null,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 0
+      }
+    },
+    "CWE-501": {
+      "previous": {
+        "count": 25,
+        "original_tp": 1,
+        "original_fp": 24,
+        "final_verdicts": {
+          "TP": 10,
+          "UNKNOWN": 15
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.0,
+        "post_filter_precision": 0.04,
+        "unknown_rate": 0.6,
+        "removed_tp": 0,
+        "removed_fp": 0
+      },
+      "current": {
+        "count": 25,
+        "original_tp": 1,
+        "original_fp": 24,
+        "final_verdicts": {
+          "FP": 17,
+          "TP": 7,
+          "UNKNOWN": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 0.7083333333333334,
+        "post_filter_precision": 0.125,
+        "unknown_rate": 0.04,
+        "removed_tp": 0,
+        "removed_fp": 17
+      }
+    },
+    "CWE-614": {
+      "previous": {
+        "count": 1,
+        "original_tp": 1,
+        "original_fp": 0,
+        "final_verdicts": {
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": null,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 0
+      },
+      "current": {
+        "count": 1,
+        "original_tp": 1,
+        "original_fp": 0,
+        "final_verdicts": {
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": null,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 0
+      }
+    },
+    "CWE-643": {
+      "previous": {
+        "count": 2,
+        "original_tp": 1,
+        "original_fp": 1,
+        "final_verdicts": {
+          "FP": 1,
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 1.0,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 1
+      },
+      "current": {
+        "count": 2,
+        "original_tp": 1,
+        "original_fp": 1,
+        "final_verdicts": {
+          "FP": 1,
+          "TP": 1
+        },
+        "tp_retention": 1.0,
+        "fp_reduction": 1.0,
+        "post_filter_precision": 1.0,
+        "unknown_rate": 0.0,
+        "removed_tp": 0,
+        "removed_fp": 1
+      }
+    }
+  }
+}

@@ -520,8 +520,10 @@ def _cmd_llm_triage_iterative_batched(
             decision, usage, trace, duration = round_results[index]
             evidence["llm_usage_total"] = _sum_usage([evidence.get("llm_usage_total", {}), usage])
             evidence["runtime_breakdown"]["llm_seconds"] += duration
+            gate_observation = _gate_observation(decision, evidence)
             for trace_item in trace:
                 trace_item["iteration"] = iteration + 1
+                trace_item["gate"] = gate_observation
                 evidence.setdefault("llm_trace", []).append(trace_item)
 
             if _decision_is_call_failure(decision):
@@ -783,6 +785,21 @@ def _decision_is_final(decision: dict[str, Any], evidence: dict[str, Any] | None
     )
 
 
+def _gate_observation(
+    decision: dict[str, Any], evidence: dict[str, Any]
+) -> dict[str, Any]:
+    return {
+        "semantic_consistent": _decision_is_semantically_consistent(decision, evidence),
+        "checklist_satisfied": _checklist_gate_satisfied(
+            evidence,
+            str(decision.get("verdict", "UNKNOWN")),
+            str(decision.get("confidence", "low")),
+        ),
+        "controller_final": _decision_is_final(decision, evidence),
+        "query_count_before_decision": len(evidence.get("query_history", [])),
+    }
+
+
 def _decision_is_semantically_consistent(
     decision: dict[str, Any], evidence: dict[str, Any]
 ) -> bool:
@@ -800,6 +817,12 @@ def _decision_is_semantically_consistent(
         and slots.get("source_user_controlled") == "yes"
         and slots.get("trust_boundary_crossing") == "yes"
         and slots.get("validator_present") != "yes"
+        and not any(
+            item.get("template_id") == "find-session-attribute-origin"
+            and item.get("status") == "ok"
+            and (item.get("summary", {}).get("tuple_count", 0) or 0) > 0
+            for item in evidence.get("query_history", [])
+        )
     ):
         return False
     return True
@@ -878,7 +901,7 @@ FP_EVIDENCE_TEMPLATES: dict[str, set[str]] = {
     "CWE-090": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
     "CWE-327": {"find-crypto-algorithm"},
     "CWE-330": {"find-randomness-source"},
-    "CWE-501": {"find-validator-or-guard"},
+    "CWE-501": {"find-session-attribute-origin", "find-validator-or-guard"},
     "CWE-614": {"find-cookie-secure-flag"},
     "CWE-643": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
 }
@@ -964,7 +987,7 @@ def _next_mandatory_query(evidence: dict[str, Any]) -> dict[str, Any] | None:
         "CWE-090": ["find-sanitizer-on-path", "find-constant-assignment-nearby"],
         "CWE-327": ["find-crypto-algorithm"],
         "CWE-330": ["find-randomness-source"],
-        "CWE-501": ["find-trust-boundary-transfer"],
+        "CWE-501": ["find-trust-boundary-transfer", "find-session-attribute-origin"],
         "CWE-614": ["find-cookie-secure-flag"],
         "CWE-643": ["find-constant-assignment-nearby"],
     }
@@ -1033,6 +1056,9 @@ SLOT_UPDATE_BY_TEMPLATE: dict[str, dict[str, str]] = {
     },
     "find-trust-boundary-transfer": {
         "trust_boundary_crossing": "yes",
+    },
+    "find-session-attribute-origin": {
+        "session_argument_origin_checked": "yes",
     },
 }
 

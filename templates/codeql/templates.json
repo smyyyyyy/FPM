@@ -121,6 +121,14 @@
       "missing_evidence": ["MISSING_TRUST_BOUNDARY_TRANSFER"],
       "cwe_categories": ["trust_boundary"],
       "parameters": ["file", "line"]
+    },
+    {
+      "id": "find-session-attribute-origin",
+      "file": "find_session_attribute_origin.ql.tmpl",
+      "description": "Extract session attribute name/value origins, local definitions, callee returns, and ordered collection operations before the sink.",
+      "missing_evidence": ["MISSING_SESSION_ARGUMENT_ORIGIN", "MISSING_CONTROL_FLOW_FEASIBILITY"],
+      "cwe_categories": ["trust_boundary"],
+      "parameters": ["file", "line"]
     }
   ]
 }

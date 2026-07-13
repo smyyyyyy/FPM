@@ -1,0 +1,869 @@
+{
+  "scope": "CWE-089 benchmark-FP alerts not filtered by experiment-v1.3",
+  "count": 61,
+  "method": "heuristic triage only; categories require manual semantic adjudication",
+  "category_counts": {
+    "gate_lacks_path_bound_fp_proof": 27,
+    "missing_collection_semantics": 15,
+    "missing_interprocedural_return_origin": 6,
+    "missing_reflection_or_factory_semantics": 5,
+    "missing_sink_bound_origin": 5,
+    "suspected_benchmark_semantic_conflict": 3
+  },
+  "records": [
+    {
+      "alert_id": "03049a68078bc8d9",
+      "benchmark_test": "BenchmarkTest00933",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_reflection_or_factory_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on reflection/factory-selected implementation"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00933.java",
+      "line": 55
+    },
+    {
+      "alert_id": "07284e74c9135247",
+      "benchmark_test": "BenchmarkTest01212",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01212.java",
+      "line": 61
+    },
+    {
+      "alert_id": "0a74922d975ed6e1",
+      "benchmark_test": "BenchmarkTest01879",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01879.java",
+      "line": 75
+    },
+    {
+      "alert_id": "1392f60468853fc1",
+      "benchmark_test": "BenchmarkTest00105",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00105.java",
+      "line": 78
+    },
+    {
+      "alert_id": "190c7d08a4d8e6f5",
+      "benchmark_test": "BenchmarkTest01816",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01816.java",
+      "line": 54
+    },
+    {
+      "alert_id": "1abc6f34e49ffdaf",
+      "benchmark_test": "BenchmarkTest01217",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01217.java",
+      "line": 60
+    },
+    {
+      "alert_id": "1abdf409283ee85b",
+      "benchmark_test": "BenchmarkTest01085",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01085.java",
+      "line": 56
+    },
+    {
+      "alert_id": "252db77ed6b75613",
+      "benchmark_test": "BenchmarkTest00929",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_sink_bound_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "current templates do not bind the reported assignment to the final SQL sink argument"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00929.java",
+      "line": 75
+    },
+    {
+      "alert_id": "2b3b29618de11e59",
+      "benchmark_test": "BenchmarkTest00336",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00336.java",
+      "line": 66
+    },
+    {
+      "alert_id": "307bc49c9656afb5",
+      "benchmark_test": "BenchmarkTest02652",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_reflection_or_factory_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on reflection/factory-selected implementation"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02652.java",
+      "line": 77
+    },
+    {
+      "alert_id": "4087a05cf59b026c",
+      "benchmark_test": "BenchmarkTest01555",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01555.java",
+      "line": 56
+    },
+    {
+      "alert_id": "480abfea61cfdc4e",
+      "benchmark_test": "BenchmarkTest02267",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02267.java",
+      "line": 57
+    },
+    {
+      "alert_id": "4d50ad661339d846",
+      "benchmark_test": "BenchmarkTest00197",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00197.java",
+      "line": 67
+    },
+    {
+      "alert_id": "5258ae7fd503b80c",
+      "benchmark_test": "BenchmarkTest00838",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_sink_bound_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "current templates do not bind the reported assignment to the final SQL sink argument"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00838.java",
+      "line": 98
+    },
+    {
+      "alert_id": "549eff5f33b079ad",
+      "benchmark_test": "BenchmarkTest01810",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_interprocedural_return_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "sink value is returned through a helper or inner method"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01810.java",
+      "line": 53
+    },
+    {
+      "alert_id": "5a20198bea2aecd3",
+      "benchmark_test": "BenchmarkTest00766",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00766.java",
+      "line": 61
+    },
+    {
+      "alert_id": "5f29d7606416ba2d",
+      "benchmark_test": "BenchmarkTest02729",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02729.java",
+      "line": 55
+    },
+    {
+      "alert_id": "60268357720dbce8",
+      "benchmark_test": "BenchmarkTest01969",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01969.java",
+      "line": 58
+    },
+    {
+      "alert_id": "6a2b42cc10b14256",
+      "benchmark_test": "BenchmarkTest00934",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00934.java",
+      "line": 74
+    },
+    {
+      "alert_id": "6f8dffe1a7368a4f",
+      "benchmark_test": "BenchmarkTest00338",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00338.java",
+      "line": 65
+    },
+    {
+      "alert_id": "73505d5511953310",
+      "benchmark_test": "BenchmarkTest01218",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01218.java",
+      "line": 60
+    },
+    {
+      "alert_id": "7c55a967ce067c3f",
+      "benchmark_test": "BenchmarkTest01719",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01719.java",
+      "line": 78
+    },
+    {
+      "alert_id": "7d33d2c30040a890",
+      "benchmark_test": "BenchmarkTest00927",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00927.java",
+      "line": 65
+    },
+    {
+      "alert_id": "838eb72ab34e9029",
+      "benchmark_test": "BenchmarkTest01387",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01387.java",
+      "line": 59
+    },
+    {
+      "alert_id": "858c79a370a90a53",
+      "benchmark_test": "BenchmarkTest01819",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01819.java",
+      "line": 54
+    },
+    {
+      "alert_id": "85afde760fd3281d",
+      "benchmark_test": "BenchmarkTest01966",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01966.java",
+      "line": 58
+    },
+    {
+      "alert_id": "8c05106c9767b176",
+      "benchmark_test": "BenchmarkTest02276",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02276.java",
+      "line": 59
+    },
+    {
+      "alert_id": "8c145dc8c2e6282c",
+      "benchmark_test": "BenchmarkTest01818",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_interprocedural_return_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "sink value is returned through a helper or inner method"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01818.java",
+      "line": 54
+    },
+    {
+      "alert_id": "8dbb16c6fa272068",
+      "benchmark_test": "BenchmarkTest02740",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "suspected_benchmark_semantic_conflict",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "query reports a feasible non-constant assignment reaching the sink variable"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02740.java",
+      "line": 54
+    },
+    {
+      "alert_id": "90b2870a2e948d27",
+      "benchmark_test": "BenchmarkTest02279",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02279.java",
+      "line": 58
+    },
+    {
+      "alert_id": "967e9bf43c9a4cb9",
+      "benchmark_test": "BenchmarkTest00592",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_reflection_or_factory_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on reflection/factory-selected implementation"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00592.java",
+      "line": 90
+    },
+    {
+      "alert_id": "96a264b818cee7cd",
+      "benchmark_test": "BenchmarkTest00925",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_reflection_or_factory_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on reflection/factory-selected implementation"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00925.java",
+      "line": 56
+    },
+    {
+      "alert_id": "986fd89c590eb6b6",
+      "benchmark_test": "BenchmarkTest02734",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02734.java",
+      "line": 55
+    },
+    {
+      "alert_id": "996ea8ab534dfcb2",
+      "benchmark_test": "BenchmarkTest00935",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00935.java",
+      "line": 72
+    },
+    {
+      "alert_id": "9a6f53f09e66f061",
+      "benchmark_test": "BenchmarkTest02636",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02636.java",
+      "line": 78
+    },
+    {
+      "alert_id": "9b1ee57a73706ae4",
+      "benchmark_test": "BenchmarkTest02728",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02728.java",
+      "line": 56
+    },
+    {
+      "alert_id": "9d39dcb00a5aa85f",
+      "benchmark_test": "BenchmarkTest01811",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01811.java",
+      "line": 53
+    },
+    {
+      "alert_id": "a2c2d52672bef50f",
+      "benchmark_test": "BenchmarkTest02736",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_reflection_or_factory_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on reflection/factory-selected implementation"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02736.java",
+      "line": 53
+    },
+    {
+      "alert_id": "a379308de83afc13",
+      "benchmark_test": "BenchmarkTest02361",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02361.java",
+      "line": 67
+    },
+    {
+      "alert_id": "a637753d6e6a59e6",
+      "benchmark_test": "BenchmarkTest02544",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_interprocedural_return_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "sink value is returned through a helper or inner method"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02544.java",
+      "line": 55
+    },
+    {
+      "alert_id": "a8567c1dd6af9cba",
+      "benchmark_test": "BenchmarkTest01814",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_interprocedural_return_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "sink value is returned through a helper or inner method"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01814.java",
+      "line": 52
+    },
+    {
+      "alert_id": "a976ebbb23f13828",
+      "benchmark_test": "BenchmarkTest00928",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_sink_bound_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "current templates do not bind the reported assignment to the final SQL sink argument"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00928.java",
+      "line": 60
+    },
+    {
+      "alert_id": "b33e868060f41ed8",
+      "benchmark_test": "BenchmarkTest01965",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01965.java",
+      "line": 59
+    },
+    {
+      "alert_id": "b4462bd23c714b3a",
+      "benchmark_test": "BenchmarkTest01309",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01309.java",
+      "line": 53
+    },
+    {
+      "alert_id": "c6ff0efd050cd812",
+      "benchmark_test": "BenchmarkTest02538",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02538.java",
+      "line": 55
+    },
+    {
+      "alert_id": "c9e50636b985d523",
+      "benchmark_test": "BenchmarkTest01815",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01815.java",
+      "line": 54
+    },
+    {
+      "alert_id": "cc94886b985e68d4",
+      "benchmark_test": "BenchmarkTest02735",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02735.java",
+      "line": 55
+    },
+    {
+      "alert_id": "d6bc1565e9ab3377",
+      "benchmark_test": "BenchmarkTest00939",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_sink_bound_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "current templates do not bind the reported assignment to the final SQL sink argument"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00939.java",
+      "line": 73
+    },
+    {
+      "alert_id": "d793574e51f64e2e",
+      "benchmark_test": "BenchmarkTest01813",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "suspected_benchmark_semantic_conflict",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "query reports a feasible non-constant assignment reaching the sink variable"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01813.java",
+      "line": 54
+    },
+    {
+      "alert_id": "d8c77f5a691e5e65",
+      "benchmark_test": "BenchmarkTest01817",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "suspected_benchmark_semantic_conflict",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "query reports a feasible non-constant assignment reaching the sink variable"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01817.java",
+      "line": 54
+    },
+    {
+      "alert_id": "da80a40aadbe46bd",
+      "benchmark_test": "BenchmarkTest02732",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_interprocedural_return_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "sink value is returned through a helper or inner method"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02732.java",
+      "line": 53
+    },
+    {
+      "alert_id": "db500cb1755f50d3",
+      "benchmark_test": "BenchmarkTest00601",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00601.java",
+      "line": 72
+    },
+    {
+      "alert_id": "e4e248d72bc6a053",
+      "benchmark_test": "BenchmarkTest01215",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "TP",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_interprocedural_return_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "sink value is returned through a helper or inner method"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01215.java",
+      "line": 61
+    },
+    {
+      "alert_id": "e9a3c6cdb2f7e277",
+      "benchmark_test": "BenchmarkTest02541",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02541.java",
+      "line": 55
+    },
+    {
+      "alert_id": "f0d0280118c95e32",
+      "benchmark_test": "BenchmarkTest02183",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02183.java",
+      "line": 53
+    },
+    {
+      "alert_id": "f4864aa78089b5a8",
+      "benchmark_test": "BenchmarkTest02739",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_collection_semantics",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "value origin depends on ordered collection mutations"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02739.java",
+      "line": 54
+    },
+    {
+      "alert_id": "f56fff3987045d65",
+      "benchmark_test": "BenchmarkTest02539",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02539.java",
+      "line": 53
+    },
+    {
+      "alert_id": "f6554c625c040ba9",
+      "benchmark_test": "BenchmarkTest01808",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01808.java",
+      "line": 56
+    },
+    {
+      "alert_id": "fccd623014f53f6e",
+      "benchmark_test": "BenchmarkTest02737",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest02737.java",
+      "line": 52
+    },
+    {
+      "alert_id": "fde38c239c841204",
+      "benchmark_test": "BenchmarkTest01812",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "FP",
+      "audit_category": "gate_lacks_path_bound_fp_proof",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "LLM produced a high-confidence FP candidate but the conservative gate rejected it"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest01812.java",
+      "line": 54
+    },
+    {
+      "alert_id": "ff7941c070734533",
+      "benchmark_test": "BenchmarkTest00938",
+      "benchmark_label": "FP",
+      "pipeline_verdict": "UNKNOWN",
+      "candidate_verdict": "TP",
+      "audit_category": "missing_sink_bound_origin",
+      "audit_status": "needs_manual_review",
+      "reasons": [
+        "current templates do not bind the reported assignment to the final SQL sink argument"
+      ],
+      "file": "src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00938.java",
+      "line": 61
+    }
+  ]
+}

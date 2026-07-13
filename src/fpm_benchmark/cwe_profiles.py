@@ -192,5 +192,6 @@ def default_slots(category: str) -> dict[str, str]:
             "trust_boundary_crossing": "unknown",
             "validator_present": "unknown",
             "trusted_state_target": "unknown",
+            "session_argument_origin_checked": "unknown",
         }
     return {}
