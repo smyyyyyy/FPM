@@ -83,11 +83,29 @@ class JulietAdapterTest(unittest.TestCase):
         evidence["code_context"]["related_source_no_comments"] = (
             "void bad() { helper.goodG2BSink(); }"
         )
+        evidence["query_history"] = [
+            {
+                "template_id": "find-static-field-call-context",
+                "status": "ok",
+                "summary": {
+                    "tuple_count": 1,
+                    "facts": [
+                        {
+                            "message": (
+                                "caller=testcases.Example.bad, "
+                                "sink_callable=testcases.Example.goodG2BSink"
+                            )
+                        }
+                    ],
+                },
+            }
+        ]
+        evidence["supplemental_evidence"] = list(evidence["query_history"])
         evidence["ground_truth"] = {"alert_label": "TP"}
 
-        prompt_view = json.dumps(compact_for_llm(evidence, view="source-chain"))
+        prompt_view = json.dumps(compact_for_llm(evidence, view="query-centered"))
 
-        self.assertIsNone(re.search(r"(?i)\b(?:bad|goodG2B)\b", prompt_view))
+        self.assertIsNone(re.search(r"(?i)\b(?:bad|goodG2B(?:Sink)?)\b", prompt_view))
         self.assertIn("caseSymbol_", prompt_view)
         self.assertNotIn("ground_truth", prompt_view)
 

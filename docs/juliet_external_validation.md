@@ -7,8 +7,10 @@
   `d985f4177c2bcd7b03455a05c1c8f2e755f55c9eb250accd052f05f877347e60`.
 - CodeQL CLI: 2.25.5.
 - Query suite: `codeql/java-queries:codeql-suites/java-code-scanning.qls`.
-- FPM method: use the frozen v1.4 prompt, gate, and evidence templates without
-  tuning them on Juliet results.
+- Initial FPM method: frozen v1.4 prompt, gate, and evidence templates. The
+  first Juliet pilot exposed a shared-field context failure and was therefore
+  used as development feedback. Results from the revised method are not an
+  untouched external-validation result.
 
 The Java source must be compiled with the jars shipped in Juliet. A
 `build-mode=none` smoke test completed but had only 47% resolved call targets,
@@ -93,6 +95,51 @@ returned by the LLM cannot break or redirect a query.
 The current full-corpus audit found zero occurrences of ground-truth fields,
 Juliet good/bad naming signals, `FIX`, or `POTENTIAL FLAW` in all 4,012
 query-centered LLM views.
+
+## Shared-field context development result
+
+The frozen method classified all 204 balanced-pilot alerts as TP: TP Retention
+was 100%, but FP Reduction was 0%. CodeQL's SARIF traces crossed a mutable
+static field and combined a source writer with a sink from another entry-call
+context. The original gate treated a complete-looking source-to-sink trace as
+sufficient and did not request the evidence needed to disambiguate callers.
+
+The development revision adds a dataset-independent, narrow trigger for a
+cross-file trace containing an explicit mutable static-field declaration. It
+then executes `find-static-field-call-context`, which aligns each field write
+with a caller that directly invokes the callable containing the alert sink.
+The query reports only the relation, source lines, assigned expression, and
+compile-time-constant status; it does not expose callable names. The controller
+rejects a TP conclusion for a constant-only caller and rejects an FP conclusion
+when the aligned caller contains a non-constant write.
+
+On the full 204-alert label-blind development pilot:
+
+| Metric | Result |
+| --- | ---: |
+| TP Retention | 100.00% |
+| FP Reduction | 100.00% |
+| Post-filter Precision | 100.00% |
+| Unknown Rate | 0.98% (2/204) |
+| MCC on decided alerts | 1.0 |
+| Infrastructure failures | 0 |
+
+The final decisions were 100 TP, 102 FP, and 2 UNKNOWN; both UNKNOWN alerts
+were ground-truth TPs and therefore remained operationally retained. The
+initial context query covered all 204 alerts using one compiled batch (180
+unique file/line requests) in 23.2 seconds. The complete cold run took 566.6
+seconds with 16 LLM workers.
+
+The trigger matches exactly 204 of the 4,012 Juliet alerts (102 TP and 102 FP).
+It matches zero alerts in the frozen 1,974-alert OWASP corpus, and replaying the
+new gate over existing OWASP decisions leaves all 1,920 decided records'
+finality unchanged. This is a static non-regression check, not a replacement
+for a fresh OWASP model run.
+
+Because this revision was designed after inspecting the Juliet failure, the
+204-alert result is a development result. A paper must evaluate this frozen
+revision on another untouched corpus or real-world labeled sample before
+claiming cross-dataset generalization.
 
 ## Experiment order
 

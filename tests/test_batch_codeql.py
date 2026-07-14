@@ -3,6 +3,7 @@ from __future__ import annotations
 import unittest
 
 from fpm_benchmark.batch_codeql import query_cache_key, render_batched_template
+from fpm_benchmark.codeql import summarize_bqrs_json
 from fpm_benchmark.query_templates import find_template, load_template_manifest
 
 
@@ -111,6 +112,49 @@ class BatchCodeQLTest(unittest.TestCase):
         self.assertIn("sameReceiver", rendered)
         self.assertIn('hasQualifiedName("javax.servlet.http", "HttpSession")', rendered)
         self.assertEqual(window, (100, 10))
+
+    def test_static_field_call_context_template_supports_batch_rendering(self) -> None:
+        template = find_template(self.manifest, "find-static-field-call-context")
+        self.assertIsNotNone(template)
+        rendered, window = render_batched_template(
+            template,
+            [
+                {
+                    "request_id": "context",
+                    "template_id": template["id"],
+                    "parameters": {
+                        "file": "Sink.java",
+                        "line": 50,
+                        "field_name": "data",
+                    },
+                }
+            ],
+            "templates/codeql",
+        )
+
+        self.assertIn('field.getName() = "data"', rendered)
+        self.assertIn("callerWritesFieldBeforeSink", rendered)
+        self.assertIn("call-context evidence", rendered)
+        self.assertIn("writer_calls_alert_sink=yes", rendered)
+        self.assertNotIn("sinkCallable.getQualifiedName()", rendered)
+        self.assertNotIn("sinkCall.getCaller().getQualifiedName()", rendered)
+        self.assertEqual(window, (0, 0))
+
+    def test_static_field_context_summary_deduplicates_ast_anchors(self) -> None:
+        summary = summarize_bqrs_json(
+            "find-static-field-call-context",
+            {
+                "#select": {
+                    "tuples": [
+                        [{"label": "first anchor"}, "same context fact"],
+                        [{"label": "second anchor"}, "same context fact"],
+                    ]
+                }
+            },
+        )
+
+        self.assertEqual(summary["tuple_count"], 2)
+        self.assertEqual(len(summary["facts"]), 1)
 
 
 if __name__ == "__main__":

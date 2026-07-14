@@ -60,6 +60,17 @@ Rules:
   later feasible non-constant overwrite before the sink.
 - Treat empty query results as missing queried evidence, not proof of safety.
 - Mark FP only when the evidence strongly supports suppression; otherwise use TP or UNKNOWN.
+- A cross-file SARIF trace through a shared static field may combine writers from different
+  entry-call contexts. When call_context_required=yes and call_context_resolved is not yes,
+  the source-to-sink trace is not sufficient for TP or FP: request
+  find-static-field-call-context.
+- For find-static-field-call-context results, consider only writes in a caller that directly
+  invokes the reported sink callable after the write. A constant-only caller supports FP;
+  a non-constant user-controlled write in that same caller supports TP. If both remain feasible
+  or the query cannot align a writer and caller, return UNKNOWN.
+- The controller summarizes these facts as call_context_constant_only and
+  call_context_nonconstant_write. Do not return TP when constant_only=yes, and do not return FP
+  when nonconstant_write=yes.
 
 - When a sink argument is read from a collection, account for intervening collection mutations
   only when the supplied evidence shows a complete, unambiguous operation sequence. A proven

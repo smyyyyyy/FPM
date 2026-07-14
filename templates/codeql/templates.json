@@ -18,6 +18,14 @@
       "parameters": ["source_file", "source_line", "sink_file", "sink_line"]
     },
     {
+      "id": "find-static-field-call-context",
+      "file": "find_static_field_call_context.ql.tmpl",
+      "description": "Align writes to a shared static field with callers that directly invoke the callable containing the alert sink.",
+      "missing_evidence": ["MISSING_CALL_CONTEXT_ALIGNMENT", "MISSING_CONTROL_FLOW_FEASIBILITY"],
+      "cwe_categories": ["source_sink"],
+      "parameters": ["file", "line", "field_name"]
+    },
+    {
       "id": "find-sink-argument-origin",
       "file": "find_sink_argument_origin.ql.tmpl",
       "description": "Extract the expression passed to the suspected sink.",

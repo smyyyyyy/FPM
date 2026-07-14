@@ -5,12 +5,73 @@ import unittest
 from fpm_benchmark.evidence import (
     build_evidence_slots,
     compact_for_llm,
+    detect_cross_context_field_ambiguity,
     enrich_core_evidence_slots,
     strip_java_comments,
 )
 
 
 class EvidenceTest(unittest.TestCase):
+    def test_detects_cross_file_static_field_trace(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-089"},
+            "annotated_trace": [
+                {"file": "Source.java", "step": 1, "code": "request.getParameter(\"x\")"},
+                {"file": "Source.java", "step": 2, "code": "public static String data;"},
+                {"file": "Sink.java", "step": 3, "code": "executeQuery(data)"},
+            ],
+        }
+
+        ambiguity = detect_cross_context_field_ambiguity(evidence)
+
+        self.assertIsNotNone(ambiguity)
+        self.assertEqual(ambiguity["field_name"], "data")
+        self.assertEqual(ambiguity["trace_file_count"], 2)
+
+    def test_does_not_trigger_on_static_method_or_single_file_field(self) -> None:
+        static_method = {
+            "alert_contract": {"cwe": "CWE-089"},
+            "annotated_trace": [
+                {"file": "A.java", "code": "public static String load() {"},
+                {"file": "B.java", "code": "executeQuery(data)"},
+            ],
+        }
+        single_file_field = {
+            "alert_contract": {"cwe": "CWE-089"},
+            "annotated_trace": [
+                {"file": "A.java", "code": "private static String data;"},
+                {"file": "A.java", "code": "executeQuery(data)"},
+            ],
+        }
+        immutable_cross_file_field = {
+            "alert_contract": {"cwe": "CWE-089"},
+            "annotated_trace": [
+                {"file": "A.java", "code": "private static final String data = \"safe\";"},
+                {"file": "B.java", "code": "executeQuery(data)"},
+            ],
+        }
+
+        self.assertIsNone(detect_cross_context_field_ambiguity(static_method))
+        self.assertIsNone(detect_cross_context_field_ambiguity(single_file_field))
+        self.assertIsNone(detect_cross_context_field_ambiguity(immutable_cross_file_field))
+
+    def test_enrichment_marks_call_context_as_required(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-022"},
+            "annotated_trace": [
+                {"file": "A.java", "step": 1, "role": "SOURCE_CANDIDATE", "code": "source()"},
+                {"file": "A.java", "step": 2, "role": "PROPAGATION", "code": "static String path;"},
+                {"file": "B.java", "step": 3, "role": "SINK_CANDIDATE", "code": "new File(path)"},
+            ],
+            "evidence_slots": {},
+        }
+
+        enrich_core_evidence_slots(evidence)
+
+        self.assertEqual(evidence["evidence_slots"]["call_context_required"], "yes")
+        self.assertEqual(evidence["evidence_slots"]["call_context_resolved"], "unknown")
+        self.assertIn("MISSING_CALL_CONTEXT_ALIGNMENT", evidence["missing_evidence"])
+
     def test_source_sink_trace_backfills_user_control_and_path(self) -> None:
         trace = [
             {"role": "SOURCE_CANDIDATE", "semantic_tag": "user_input_candidate"},

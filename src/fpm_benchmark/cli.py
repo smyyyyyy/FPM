@@ -830,6 +830,11 @@ def _decision_is_semantically_consistent(
     cwe = evidence.get("alert_contract", {}).get("cwe")
     verdict = decision.get("verdict")
     slots = evidence.get("evidence_slots", {})
+    if slots.get("call_context_required") == "yes":
+        if verdict == "TP" and slots.get("call_context_constant_only") == "yes":
+            return False
+        if verdict == "FP" and slots.get("call_context_nonconstant_write") == "yes":
+            return False
     if cwe == "CWE-327":
         if verdict == "FP" and slots.get("known_weak_api_or_algorithm") == "yes":
             return False
@@ -887,21 +892,47 @@ TP_REQUIRED_SLOTS: dict[str, tuple[str, ...]] = {
 }
 
 FP_EVIDENCE_SLOTS: dict[str, tuple[str, ...]] = {
-    "CWE-022": ("validator_present", "constant_overwrite", "sink_argument_origin"),
-    "CWE-078": ("sanitizer_present", "constant_overwrite", "sink_argument_origin"),
+    "CWE-022": (
+        "validator_present",
+        "constant_overwrite",
+        "sink_argument_origin",
+        "call_context_resolved",
+    ),
+    "CWE-078": (
+        "sanitizer_present",
+        "constant_overwrite",
+        "sink_argument_origin",
+        "call_context_resolved",
+    ),
     "CWE-079": (
         "sanitizer_present",
         "framework_semantics_known",
         "constant_overwrite",
         "sink_argument_origin",
+        "call_context_resolved",
     ),
-    "CWE-089": ("safe_api_usage", "sink_argument_origin", "constant_overwrite"),
-    "CWE-090": ("sanitizer_present", "validator_present", "constant_overwrite"),
+    "CWE-089": (
+        "safe_api_usage",
+        "sink_argument_origin",
+        "constant_overwrite",
+        "call_context_resolved",
+    ),
+    "CWE-090": (
+        "sanitizer_present",
+        "validator_present",
+        "constant_overwrite",
+        "call_context_resolved",
+    ),
     "CWE-327": ("known_strong_algorithm",),
     "CWE-330": ("randomness_source_known",),
     "CWE-501": ("validator_present",),
     "CWE-614": ("secure_flag_set",),
-    "CWE-643": ("sanitizer_present", "validator_present", "constant_overwrite"),
+    "CWE-643": (
+        "sanitizer_present",
+        "validator_present",
+        "constant_overwrite",
+        "call_context_resolved",
+    ),
 }
 
 FP_REQUIRED_SLOTS: dict[str, tuple[str, ...]] = {
@@ -918,16 +949,40 @@ FP_REQUIRED_SLOTS: dict[str, tuple[str, ...]] = {
 }
 
 FP_EVIDENCE_TEMPLATES: dict[str, set[str]] = {
-    "CWE-022": {"find-path-canonical-guard", "find-constant-assignment-nearby"},
-    "CWE-078": {"find-command-execution-arguments", "find-constant-assignment-nearby"},
-    "CWE-079": {"find-xss-encoder-nearby", "find-constant-assignment-nearby"},
-    "CWE-089": {"find-sql-parameterization", "find-constant-assignment-nearby"},
-    "CWE-090": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
+    "CWE-022": {
+        "find-path-canonical-guard",
+        "find-constant-assignment-nearby",
+        "find-static-field-call-context",
+    },
+    "CWE-078": {
+        "find-command-execution-arguments",
+        "find-constant-assignment-nearby",
+        "find-static-field-call-context",
+    },
+    "CWE-079": {
+        "find-xss-encoder-nearby",
+        "find-constant-assignment-nearby",
+        "find-static-field-call-context",
+    },
+    "CWE-089": {
+        "find-sql-parameterization",
+        "find-constant-assignment-nearby",
+        "find-static-field-call-context",
+    },
+    "CWE-090": {
+        "find-sanitizer-on-path",
+        "find-constant-assignment-nearby",
+        "find-static-field-call-context",
+    },
     "CWE-327": {"find-crypto-algorithm"},
     "CWE-330": {"find-randomness-source"},
     "CWE-501": {"find-session-attribute-origin", "find-validator-or-guard"},
     "CWE-614": {"find-cookie-secure-flag"},
-    "CWE-643": {"find-sanitizer-on-path", "find-constant-assignment-nearby"},
+    "CWE-643": {
+        "find-sanitizer-on-path",
+        "find-constant-assignment-nearby",
+        "find-static-field-call-context",
+    },
 }
 
 
@@ -939,6 +994,11 @@ def _checklist_gate_satisfied(
     slots = evidence.get("evidence_slots", {})
     checklist = profile_for(cwe).get("sufficiency_checklist", [])
     if any(slots.get(slot) in {"error", "checked_error"} for slot in checklist):
+        return False
+    if (
+        slots.get("call_context_required") == "yes"
+        and slots.get("call_context_resolved") != "yes"
+    ):
         return False
 
     if verdict == "TP":
@@ -986,7 +1046,12 @@ def _normalize_query_request(
     if not template:
         fallback = _next_mandatory_query(evidence)
         return fallback or {"template_id": None, "parameters": {}, "reason": ""}
-    parameters = dict(query.get("parameters") or {})
+    allowed_parameters = set(template.get("parameters", []))
+    parameters = {
+        key: value
+        for key, value in dict(query.get("parameters") or {}).items()
+        if key in allowed_parameters
+    }
     location = _location_query_params(evidence) or {}
     for name in template.get("parameters", []):
         if name in location:
@@ -1006,6 +1071,20 @@ def _normalize_query_request(
 
 def _next_mandatory_query(evidence: dict[str, Any]) -> dict[str, Any] | None:
     cwe = evidence.get("alert_contract", {}).get("cwe")
+    existing = {item.get("template_id") for item in evidence.get("query_history", [])}
+    params = _location_query_params(evidence)
+    slots = evidence.get("evidence_slots", {})
+    if (
+        slots.get("call_context_required") == "yes"
+        and slots.get("call_context_resolved") != "yes"
+        and "find-static-field-call-context" not in existing
+        and params
+    ):
+        return {
+            "template_id": "find-static-field-call-context",
+            "parameters": params,
+            "reason": "resolve shared-field writers against the caller of this sink",
+        }
     sequence_by_cwe = {
         "CWE-089": ["find-sql-parameterization", "find-constant-assignment-nearby"],
         "CWE-079": ["find-xss-encoder-nearby", "find-constant-assignment-nearby"],
@@ -1021,8 +1100,6 @@ def _next_mandatory_query(evidence: dict[str, Any]) -> dict[str, Any] | None:
     sequence = sequence_by_cwe.get(cwe, [])
     if not sequence:
         return None
-    existing = {item.get("template_id") for item in evidence.get("query_history", [])}
-    params = _location_query_params(evidence)
     if not params:
         return None
     for template_id in sequence:
@@ -1087,6 +1164,9 @@ SLOT_UPDATE_BY_TEMPLATE: dict[str, dict[str, str]] = {
     "find-session-attribute-origin": {
         "session_argument_origin_checked": "yes",
     },
+    "find-static-field-call-context": {
+        "call_context_resolved": "yes",
+    },
 }
 
 
@@ -1111,6 +1191,13 @@ def _update_slots_from_query(evidence: dict[str, Any], result: dict[str, Any]) -
             elif algorithm_class == "strong":
                 slots["known_weak_api_or_algorithm"] = "no"
                 slots["known_strong_algorithm"] = "yes"
+        if template_id == "find-static-field-call-context":
+            _update_call_context_slots(slots, result)
+            evidence["missing_evidence"] = [
+                item
+                for item in evidence.get("missing_evidence", [])
+                if item != "MISSING_CALL_CONTEXT_ALIGNMENT"
+            ]
     elif status == "ok" and tuple_count == 0:
         # Query ran but found nothing. A non-empty query result was
         # still produced (e.g., "no sanitizer found"), so mark the
@@ -1143,6 +1230,18 @@ def _sql_query_proves_safe_usage(result: dict[str, Any]) -> bool:
     )
 
 
+def _update_call_context_slots(slots: dict[str, str], result: dict[str, Any]) -> None:
+    summary = result.get("summary", {})
+    facts = summary.get("facts", []) if isinstance(summary, dict) else []
+    messages = [str(fact.get("message", "")) for fact in facts]
+    has_constant = any("compile_time_constant=yes" in message for message in messages)
+    has_nonconstant = any("compile_time_constant=no" in message for message in messages)
+    slots["call_context_constant_only"] = (
+        "yes" if has_constant and not has_nonconstant else "no"
+    )
+    slots["call_context_nonconstant_write"] = "yes" if has_nonconstant else "no"
+
+
 def _classify_crypto_algorithm(evidence: dict[str, Any], result: dict[str, Any]) -> str | None:
     trace_text = "\n".join(
         str(item.get("code", "")) + " " + str(item.get("message", ""))
@@ -1170,6 +1269,9 @@ def _location_query_params(evidence: dict[str, Any]) -> dict[str, Any] | None:
         "line": line,
         "cwe": evidence.get("alert_contract", {}).get("cwe"),
     }
+    ambiguity = evidence.get("context_ambiguity", {})
+    if ambiguity.get("field_name"):
+        parameters["field_name"] = ambiguity["field_name"]
     trace = evidence.get("annotated_trace", [])
     if trace:
         source = trace[0]

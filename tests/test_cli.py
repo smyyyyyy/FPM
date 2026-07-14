@@ -37,7 +37,11 @@ class ControllerTest(unittest.TestCase):
         normalized = _normalize_query_request(
             {
                 "template_id": "find-command-execution-arguments",
-                "parameters": {"file": "redacted/Case.java", "line": 1},
+                "parameters": {
+                    "file": "redacted/Case.java",
+                    "line": 1,
+                    "unlisted_parameter": "must-not-reach-query",
+                },
             },
             evidence,
             manifest,
@@ -130,6 +134,128 @@ class ControllerTest(unittest.TestCase):
         }
         decision = {"verdict": "TP", "sufficient": True}
         self.assertTrue(_decision_is_final(decision, evidence))
+
+    def test_gate_blocks_ambiguous_static_field_until_context_query_resolves(self) -> None:
+        evidence = {
+            "alert_contract": {
+                "cwe": "CWE-089",
+                "primary_location": {"file": "Sink.java", "start_line": 50},
+            },
+            "context_ambiguity": {"field_name": "data"},
+            "annotated_trace": [
+                {"role": "SOURCE_CANDIDATE"},
+                {"role": "SINK_CANDIDATE"},
+            ],
+            "evidence_slots": {
+                "sink_identified": "yes",
+                "source_user_controlled": "yes",
+                "sink_dangerous": "yes",
+                "path_exists": "yes",
+                "call_context_required": "yes",
+                "call_context_resolved": "unknown",
+            },
+        }
+        decision = {"verdict": "TP", "sufficient": True, "confidence": "high"}
+
+        self.assertFalse(_decision_is_final(decision, evidence))
+        query = _controller_next_query(evidence=evidence, decision=decision, can_continue=True)
+        self.assertEqual(query["template_id"], "find-static-field-call-context")
+        self.assertEqual(query["parameters"]["field_name"], "data")
+
+        result = {
+            "status": "ok",
+            "template_id": "find-static-field-call-context",
+            "summary": {"tuple_count": 1},
+        }
+        evidence["query_history"] = [result]
+        result["summary"]["facts"] = [
+            {
+                "message": (
+                    "call-context evidence: assigned_value=\"safe\", "
+                    "compile_time_constant=yes"
+                )
+            }
+        ]
+        _update_slots_from_query(evidence, result)
+        self.assertEqual(evidence["evidence_slots"]["call_context_resolved"], "yes")
+        self.assertEqual(evidence["evidence_slots"]["call_context_constant_only"], "yes")
+        self.assertFalse(_decision_is_final(decision, evidence))
+        self.assertTrue(
+            _decision_is_final(
+                {"verdict": "FP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+
+    def test_nonconstant_call_context_rejects_fp_and_allows_tp(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-078"},
+            "annotated_trace": [
+                {"role": "SOURCE_CANDIDATE"},
+                {"role": "SINK_CANDIDATE"},
+            ],
+            "evidence_slots": {
+                "source_user_controlled": "yes",
+                "sink_dangerous": "yes",
+                "path_exists": "yes",
+                "call_context_required": "yes",
+                "call_context_resolved": "unknown",
+            },
+        }
+        result = {
+            "status": "ok",
+            "template_id": "find-static-field-call-context",
+            "summary": {
+                "tuple_count": 1,
+                "facts": [
+                    {
+                        "message": (
+                            "call-context evidence: assigned_value=getParameter(...), "
+                            "compile_time_constant=no"
+                        )
+                    }
+                ],
+            },
+        }
+
+        _update_slots_from_query(evidence, result)
+
+        self.assertEqual(evidence["evidence_slots"]["call_context_nonconstant_write"], "yes")
+        self.assertFalse(
+            _decision_is_final(
+                {"verdict": "FP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+        self.assertTrue(
+            _decision_is_final(
+                {"verdict": "TP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
+
+    def test_empty_call_context_query_does_not_resolve_ambiguity(self) -> None:
+        evidence = {
+            "alert_contract": {"cwe": "CWE-022"},
+            "evidence_slots": {
+                "source_user_controlled": "yes",
+                "sink_dangerous": "yes",
+                "path_exists": "yes",
+                "call_context_required": "yes",
+                "call_context_resolved": "unknown",
+            },
+        }
+        result = {
+            "status": "ok",
+            "template_id": "find-static-field-call-context",
+            "summary": {"tuple_count": 0},
+        }
+
+        _update_slots_from_query(evidence, result)
+
+        self.assertEqual(evidence["evidence_slots"]["call_context_resolved"], "checked_none")
+        self.assertFalse(
+            _decision_is_final(
+                {"verdict": "TP", "sufficient": True, "confidence": "high"}, evidence
+            )
+        )
 
     def test_xss_fp_requires_path_relevant_refutation_evidence(self) -> None:
         evidence = {

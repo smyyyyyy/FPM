@@ -166,6 +166,10 @@ def default_slots(category: str) -> dict[str, str]:
             "nearby_sanitizer_found": "unknown",
             "nearby_validator_found": "unknown",
             "nearby_constant_assignment_found": "unknown",
+            "call_context_required": "unknown",
+            "call_context_resolved": "unknown",
+            "call_context_constant_only": "unknown",
+            "call_context_nonconstant_write": "unknown",
         }
     if category == "api_misuse":
         return {

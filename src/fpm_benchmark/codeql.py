@@ -122,21 +122,28 @@ def summarize_bqrs_json(template_id: str, data: dict[str, Any], max_facts: int =
     select = data.get("#select", {}) if isinstance(data, dict) else {}
     tuples = select.get("tuples", []) if isinstance(select, dict) else []
     facts: list[dict[str, Any]] = []
-    for row in tuples[:max_facts]:
+    seen_messages: set[str] = set()
+    for row in tuples:
         if not isinstance(row, list):
             continue
+        message = _row_message(row)
+        if template_id == "find-static-field-call-context" and message in seen_messages:
+            continue
+        seen_messages.add(message)
         facts.append(
             {
-                "message": _row_message(row),
+                "message": message,
                 "entities": [_entity_label(value) for value in row if isinstance(value, dict)],
                 "values": [_scalar_value(value) for value in row if not isinstance(value, dict)],
             }
         )
+        if len(facts) >= max_facts:
+            break
     return {
         "template_id": template_id,
         "tuple_count": len(tuples),
         "facts": facts,
-        "truncated": len(tuples) > max_facts,
+        "truncated": len(facts) >= max_facts and len(tuples) > len(facts),
         "absence_note": (
             "No rows were returned. Treat this as absence of queried evidence, not proof that "
             "the code has no sanitizer, guard, or safe API."
