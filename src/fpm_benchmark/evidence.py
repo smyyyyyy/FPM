@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import hashlib
+import re
 from pathlib import Path
 from typing import Any
 
@@ -251,10 +253,46 @@ def compact_for_llm(evidence: dict[str, Any], view: str = "structured") -> dict[
         compact["supplemental_evidence"] = compact_supplemental_evidence(
             evidence.get("supplemental_evidence", [])
         )
+    if evidence.get("dataset", {}).get("label_blind") is True:
+        compact = redact_benchmark_label_tokens(compact, salt=str(evidence.get("alert_id", "")))
     trace = compact.get("annotated_trace", [])
     if len(trace) > 12:
         compact["annotated_trace"] = trace[:6] + [{"omitted_steps": len(trace) - 12}] + trace[-6:]
     return compact
+
+
+_JULIET_COMPOUND_LABEL = re.compile(
+    r"(?<![A-Za-z0-9])(?:good(?:(?:G2B|B2G)(?:Sink|Source)?|Sink|Source|\d+)|"
+    r"bad(?:Sink|Source|Only)|bad\d+)(?![A-Za-z0-9])",
+    flags=re.IGNORECASE,
+)
+_JULIET_CALL_LABEL = re.compile(r"\b(?:good|bad)(?=\s*\()", flags=re.IGNORECASE)
+_JULIET_SUFFIX_LABEL = re.compile(
+    r"(?<=_)(?:good|bad)(?=(?:\.java)?(?:[^A-Za-z0-9]|$))",
+    flags=re.IGNORECASE,
+)
+
+
+def redact_benchmark_label_tokens(value: Any, *, salt: str) -> Any:
+    """Remove Juliet good/bad naming signals from the LLM-visible projection."""
+
+    if isinstance(value, dict):
+        return {
+            key: redact_benchmark_label_tokens(item, salt=salt)
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [redact_benchmark_label_tokens(item, salt=salt) for item in value]
+    if not isinstance(value, str):
+        return value
+
+    def alias(match: re.Match[str]) -> str:
+        digest = hashlib.sha256(f"{salt}\0{match.group(0).lower()}".encode()).hexdigest()[:10]
+        return f"caseSymbol_{digest}"
+
+    value = _JULIET_COMPOUND_LABEL.sub(alias, value)
+    value = _JULIET_CALL_LABEL.sub(alias, value)
+    return _JULIET_SUFFIX_LABEL.sub(alias, value)
 
 
 def compact_query_history(history: list[dict[str, Any]], max_items: int = 6) -> list[dict[str, Any]]:

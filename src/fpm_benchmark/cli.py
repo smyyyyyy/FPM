@@ -20,6 +20,7 @@ from .cwe_profiles import profile_for
 from .evidence import enrich_core_evidence_slots
 from .ground_truth import load_expected_results
 from .judge import judge_once
+from .juliet import prepare_juliet_evidence
 from .llm import DeepSeekClient, LLMInfrastructureError
 from .metrics import compute_metrics
 from .query_templates import allowed_templates_for_llm, load_template_manifest
@@ -49,6 +50,17 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--out", required=True)
     p.add_argument("--config", default="configs/experiment.json")
     p.set_defaults(func=cmd_import_normalized)
+
+    p = sub.add_parser(
+        "prepare-juliet",
+        help="Attach alert-level Juliet ground truth using CodeQL callable locations.",
+    )
+    p.add_argument("--sarif", required=True)
+    p.add_argument("--callables", required=True)
+    p.add_argument("--source-root", required=True)
+    p.add_argument("--out", required=True)
+    p.add_argument("--summary", required=True)
+    p.set_defaults(func=cmd_prepare_juliet)
 
     p = sub.add_parser("llm-triage", help="Run DeepSeek TP/FP/Unknown triage.")
     p.add_argument("--input", required=True)
@@ -191,6 +203,18 @@ def cmd_import_normalized(args: argparse.Namespace) -> None:
     )
     write_jsonl(args.out, records)
     print(f"wrote {len(records)} normalized structured evidence records to {args.out}")
+
+
+def cmd_prepare_juliet(args: argparse.Namespace) -> None:
+    records, summary = prepare_juliet_evidence(
+        sarif_path=args.sarif,
+        callable_locations_path=args.callables,
+        source_root=args.source_root,
+    )
+    write_jsonl(args.out, records)
+    write_json(args.summary, summary)
+    print(f"wrote {len(records)} labeled Juliet records to {args.out}")
+    print(f"wrote Juliet summary to {args.summary}")
 
 
 def cmd_dataset_summary(args: argparse.Namespace) -> None:
@@ -965,7 +989,10 @@ def _normalize_query_request(
     parameters = dict(query.get("parameters") or {})
     location = _location_query_params(evidence) or {}
     for name in template.get("parameters", []):
-        if name not in parameters and name in location:
+        if name in location:
+            # Location and CWE parameters are controller-owned. This also lets
+            # label-blind datasets show anonymized paths to the LLM while the
+            # query still executes against the original database location.
             parameters[name] = location[name]
     if any(parameters.get(name) in {None, ""} for name in template.get("parameters", [])):
         fallback = _next_mandatory_query(evidence)
@@ -1138,7 +1165,24 @@ def _location_query_params(evidence: dict[str, Any]) -> dict[str, Any] | None:
     line = primary.get("start_line")
     if not file or line in {None, ""}:
         return None
-    return {"file": file, "line": line}
+    parameters: dict[str, Any] = {
+        "file": file,
+        "line": line,
+        "cwe": evidence.get("alert_contract", {}).get("cwe"),
+    }
+    trace = evidence.get("annotated_trace", [])
+    if trace:
+        source = trace[0]
+        sink = trace[-1]
+        source_file = source.get("file") or source.get("uri")
+        sink_file = sink.get("file") or sink.get("uri")
+        if source_file and source.get("start_line") not in {None, ""}:
+            parameters["source_file"] = source_file
+            parameters["source_line"] = source.get("start_line")
+        if sink_file and sink.get("start_line") not in {None, ""}:
+            parameters["sink_file"] = sink_file
+            parameters["sink_line"] = sink.get("start_line")
+    return parameters
 
 
 def cmd_raw_codeql(args: argparse.Namespace) -> None:

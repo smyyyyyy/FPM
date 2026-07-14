@@ -9,12 +9,42 @@ from fpm_benchmark.cli import (
     _decision_is_call_failure,
     _decision_is_final,
     _gate_observation,
+    _normalize_query_request,
     _update_slots_from_query,
     _unresolved_decision,
 )
 
 
 class ControllerTest(unittest.TestCase):
+    def test_query_location_parameters_are_controller_owned(self) -> None:
+        evidence = {
+            "alert_contract": {
+                "cwe": "CWE-078",
+                "primary_location": {"file": "real/Case.java", "start_line": 42},
+            },
+            "annotated_trace": [],
+        }
+        manifest = {
+            "templates": [
+                {
+                    "id": "find-command-execution-arguments",
+                    "enabled": True,
+                    "parameters": ["file", "line"],
+                }
+            ]
+        }
+
+        normalized = _normalize_query_request(
+            {
+                "template_id": "find-command-execution-arguments",
+                "parameters": {"file": "redacted/Case.java", "line": 1},
+            },
+            evidence,
+            manifest,
+        )
+
+        self.assertEqual(normalized["parameters"], {"file": "real/Case.java", "line": 42})
+
     def test_client_uses_configured_api_key_environment(self) -> None:
         with patch.dict(
             "os.environ",
