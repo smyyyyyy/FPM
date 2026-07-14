@@ -97,8 +97,10 @@ query-centered LLM views.
 ## Experiment order
 
 1. Run a no-API static preparation and leakage audit.
-2. Run a small infrastructure pilot containing all six CWE-078 FPs plus matched
-   TPs. Use it only to verify API reliability and artifact generation.
+2. Run the 204-alert balanced pilot containing all 102 FPs plus one TP from the
+   same CWE and testcase family for every FP. Use it to verify API reliability,
+   query execution, and whether the frozen method can recognize Juliet's FP
+   pattern. Its precision is not a population estimate.
 3. Run the frozen method on all 4,012 alerts. All 3,910 TPs are needed for a
    defensible TP-retention estimate; an FP-only sample cannot establish safety.
 4. Report TP Retention, FP Reduction, Unknown Rate, post-filter precision, MCC,
@@ -109,3 +111,16 @@ query-centered LLM views.
    change templates or the gate after seeing Juliet outcomes. If Juliet informs
    a method change, call it a development set and reserve another untouched
    corpus or real-world labeled sample for final external evaluation.
+
+Run the OpenCode Go pilot with:
+
+```bash
+export DEEPSEEK_API_KEY='...'
+WORKERS=8 MODEL=deepseek-v4-flash bash scripts/run_juliet_go.sh
+```
+
+After the pilot has zero infrastructure failures, run the full external test:
+
+```bash
+SCOPE=full WORKERS=8 MODEL=deepseek-v4-flash bash scripts/run_juliet_go.sh
+```

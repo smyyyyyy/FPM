@@ -38,7 +38,19 @@ def sarif_to_evidence(
             slots = build_evidence_slots(cwe, trace)
             missing = infer_missing_evidence(cwe, slots)
             message = _message_text(result.get("message"))
-            alert_id = stable_id(rule_id, cwe, primary.get("file"), primary.get("start_line"), message)
+            fingerprints = result.get("partialFingerprints", {})
+            alert_id = stable_id(
+                rule_id,
+                cwe,
+                primary.get("file"),
+                primary.get("start_line"),
+                primary.get("start_column"),
+                primary.get("end_line"),
+                primary.get("end_column"),
+                fingerprints.get("primaryLocationLineHash"),
+                fingerprints.get("primaryLocationStartColumnFingerprint"),
+                message,
+            )
 
             evidence = {
                 "alert_id": alert_id,
@@ -55,6 +67,7 @@ def sarif_to_evidence(
                         "full_description": _message_text(rule.get("fullDescription")),
                     },
                     "sarif_indices": {"run": run_index, "result": result_index},
+                    "sarif_fingerprints": fingerprints,
                 },
                 "cwe_profile": profile,
                 "annotated_trace": trace,
