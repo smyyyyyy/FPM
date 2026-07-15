@@ -1,7 +1,7 @@
 {
   "version": "experiment-v1.4",
   "date": "2026-07-13",
-  "status": "targeted-regression-passed",
+  "status": "full-owasp-run-complete",
   "method_changes": [
     "Recognize java.lang.Math.random() in the CWE-330 randomness template.",
     "Extract session attribute arguments, local origins, callee returns, and ordered collection operations for CWE-501.",
@@ -10,6 +10,42 @@
     "Separate pre-gate candidate-round diagnostics from deployable final metrics."
   ],
   "validation": {
+    "owasp_1974_full": {
+      "run": "data/results/owasp-1974-deepseek-v4-flash-20260713-143703",
+      "provider": "opencode-go",
+      "model": "deepseek-v4-flash",
+      "source_revision": {
+        "tag": "experiment-v1.4",
+        "commit": "1d76d9f04ca77f4f934c79473b40f347da3781e1",
+        "attribution": "The run began after this tag and before the next repository commit; the run metadata itself did not embed a Git commit."
+      },
+      "records": 1974,
+      "ground_truth": {
+        "TP": 1449,
+        "FP": 525
+      },
+      "final_verdicts": {
+        "TP": 1461,
+        "FP": 459,
+        "UNKNOWN": 54
+      },
+      "tp_retention": 1.0,
+      "fp_reduction": 0.8742857142857143,
+      "precision": 0.9564356435643564,
+      "f1": 0.9777327935222672,
+      "mcc": 0.9144386364332929,
+      "unknown_rate": 0.02735562310030395,
+      "llm_failures": 0,
+      "workers": 16,
+      "wall_seconds": 2349.922694375,
+      "sha256": {
+        "decisions.jsonl": "941cd74e83abcb22ed0683bee66cb6b64ceb74a87a0ac1995180f94ae4964f5e",
+        "experiment.json": "98906f115b378253c87251d1ce615d33ee38858047ad34c26d344ade197e9158",
+        "metrics.json": "f9e9a768460de323c6633bfbce69938e32308bde18389975b72dadced7a15ece",
+        "runtime.json": "71a3775d25b0aacb37eb29f14001b09bb63cf035233401ecb0baa0bdede94896",
+        "summary.json": "18ed5593ab71dd36b0fc1afe0182298aab985c50c1e562f22ef939ebdc009d71"
+      }
+    },
     "error_audit_150": {
       "run": "data/results/owasp-error-audit-150-deepseek-v4-flash-20260713-135108",
       "provider": "opencode-go",
@@ -88,8 +124,8 @@
   "limitations": [
     "The 150-alert comparison changes provider from DeepSeek official to OpenCode Go, so its delta is not a method-only causal estimate.",
     "Two OpenCode Go runs using the pre-final template over the same 24 CWE-501 false positives filtered 17 and 22 alerts respectively; temperature zero does not remove service-side run variance.",
-    "The v1.4 evidence changes have not yet been rerun over all 1974 alerts.",
+    "The full run metadata did not embed its Git revision; v1.4 attribution is based on the tag and run chronology recorded above.",
     "The CWE-089 audit is heuristic and all 61 disputed records still require manual semantic adjudication."
   ],
-  "next_gate": "Run a same-provider repeated experiment before treating v1.4 gains as publication evidence."
+  "next_gate": "Repeat the frozen full experiment with the same provider and model, embedding the Git revision in run metadata, before treating the v1.4 gains as publication evidence."
 }

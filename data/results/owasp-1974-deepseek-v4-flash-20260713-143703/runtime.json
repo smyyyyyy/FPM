@@ -1,0 +1,268 @@
+{
+  "alerts": 1974,
+  "direct_after_first_round": 883,
+  "infrastructure_errors": 0,
+  "llm_rounds": [
+    {
+      "finalized": 883,
+      "input_alerts": 1974,
+      "query_requests": 1091,
+      "round": 1,
+      "wall_seconds": 1263.3331553179996
+    },
+    {
+      "finalized": 1005,
+      "input_alerts": 1091,
+      "query_requests": 86,
+      "round": 2,
+      "wall_seconds": 821.8810939079995
+    },
+    {
+      "finalized": 86,
+      "input_alerts": 86,
+      "query_requests": 0,
+      "round": 3,
+      "wall_seconds": 100.13368768499913
+    }
+  ],
+  "max_iterations": 3,
+  "mode": "iterative_batched",
+  "queried_alerts": 1091,
+  "query": {
+    "batch_count": 19,
+    "cache_hit_rate": 0.0,
+    "cache_hits": 0,
+    "cache_misses": 1117,
+    "requests": 1177,
+    "rounds": [
+      {
+        "batch_count": 15,
+        "batches": [
+          {
+            "batch_id": "7102f41586f40f4456f6ea4f70106dd0364c0b79f7104614e324a86641738971",
+            "request_count": 72,
+            "status": "ok",
+            "template_id": "find-path-canonical-guard",
+            "tuple_count": 0,
+            "wall_seconds": 8.928386935999697,
+            "window_after": 45,
+            "window_before": 80
+          },
+          {
+            "batch_id": "7703fd93b3570ade185bd57e7f5f298f6fb1db5cc247e1311d06fec230bbada9",
+            "request_count": 9,
+            "status": "ok",
+            "template_id": "find-constant-assignment-nearby",
+            "tuple_count": 72,
+            "wall_seconds": 11.080285646999982,
+            "window_after": 120,
+            "window_before": 100
+          },
+          {
+            "batch_id": "bf26f629a02db0058b6fddca4504ea34e2e822d2079d476713880eda85cee410",
+            "request_count": 1,
+            "status": "ok",
+            "template_id": "find-validator-or-guard",
+            "tuple_count": 2,
+            "wall_seconds": 8.94550593599979,
+            "window_after": 20,
+            "window_before": 20
+          },
+          {
+            "batch_id": "67665639f4f9beec2c664c4b35afa78ac081131d68c3f67bc860a0cbd5741080",
+            "request_count": 63,
+            "status": "ok",
+            "template_id": "find-command-execution-arguments",
+            "tuple_count": 124,
+            "wall_seconds": 9.32785999600037,
+            "window_after": 35,
+            "window_before": 80
+          },
+          {
+            "batch_id": "f334d7448ecc6433c01f255f82c4bfaf908d70e0f1a259fd1e9aca11cfc03643",
+            "request_count": 5,
+            "status": "ok",
+            "template_id": "find-sanitizer-on-path",
+            "tuple_count": 6,
+            "wall_seconds": 8.795894609999777,
+            "window_after": 20,
+            "window_before": 20
+          },
+          {
+            "batch_id": "fe802f31be67d7d4d7035221805d628fb40c8b932b49803389c7c7437808e30b",
+            "request_count": 97,
+            "status": "ok",
+            "template_id": "find-xss-encoder-nearby",
+            "tuple_count": 42,
+            "wall_seconds": 8.786109458000283,
+            "window_after": 30,
+            "window_before": 80
+          },
+          {
+            "batch_id": "2f410126a63d4271b99f44003be4717fb3b349c2e2cbfc903ebbe3d405965229",
+            "request_count": 1,
+            "status": "ok",
+            "template_id": "find-sanitizer-on-path",
+            "tuple_count": 0,
+            "wall_seconds": 8.48220845800006,
+            "window_after": 20,
+            "window_before": 20
+          },
+          {
+            "batch_id": "cc32893286cbdbc878dd36ff6c9ad2f8c6e1a6aa56d113c9dc21514a782c60d5",
+            "request_count": 203,
+            "status": "ok",
+            "template_id": "find-sql-parameterization",
+            "tuple_count": 344,
+            "wall_seconds": 9.342173498000193,
+            "window_after": 30,
+            "window_before": 80
+          },
+          {
+            "batch_id": "f5ff3f156129a31fe621a904d284055ba11b7a5b14a3d3f9dcb1548fc6dbc702",
+            "request_count": 1,
+            "status": "ok",
+            "template_id": "find-sink-argument-origin",
+            "tuple_count": 1,
+            "wall_seconds": 8.629586920999827,
+            "window_after": 0,
+            "window_before": 0
+          },
+          {
+            "batch_id": "1def8437ca87817a3b7cde0fdeae407ee65f45a12fcd4066f0aadd8d3a8f199b",
+            "request_count": 12,
+            "status": "ok",
+            "template_id": "find-sanitizer-on-path",
+            "tuple_count": 48,
+            "wall_seconds": 8.784694949999903,
+            "window_after": 20,
+            "window_before": 20
+          },
+          {
+            "batch_id": "4f9bbf0b3567e65f1a05130f6ffe712e4f6b1a6b7c2d9085bd4871f04066f6d9",
+            "request_count": 2,
+            "status": "ok",
+            "template_id": "find-sanitizer-on-path",
+            "tuple_count": 8,
+            "wall_seconds": 8.844470361000276,
+            "window_after": 20,
+            "window_before": 20
+          },
+          {
+            "batch_id": "33a9287f13a1c24459c558961f2cec59d127bc1d9755844efc614c184c6fd26c",
+            "request_count": 287,
+            "status": "ok",
+            "template_id": "find-crypto-algorithm",
+            "tuple_count": 347,
+            "wall_seconds": 10.066003468999952,
+            "window_after": 0,
+            "window_before": 0
+          },
+          {
+            "batch_id": "c34177bdcc068c9281ab470c7a80b81193cf6958f5cde06a2f825bb9e34062ee",
+            "request_count": 218,
+            "status": "ok",
+            "template_id": "find-randomness-source",
+            "tuple_count": 218,
+            "wall_seconds": 8.884717885999635,
+            "window_after": 30,
+            "window_before": 80
+          },
+          {
+            "batch_id": "c4f8541060561bcf947977f7b28b1b3e6645948118657d1eaf6413faf8ec9270",
+            "request_count": 24,
+            "status": "ok",
+            "template_id": "find-trust-boundary-transfer",
+            "tuple_count": 36,
+            "wall_seconds": 2.9046402060002947,
+            "window_after": 30,
+            "window_before": 30
+          },
+          {
+            "batch_id": "fd6ade919f57cb9ee1c124cfd09b3066c46f1c735697bbe353edb201edafc9dc",
+            "request_count": 36,
+            "status": "ok",
+            "template_id": "find-cookie-secure-flag",
+            "tuple_count": 36,
+            "wall_seconds": 2.8948597420003352,
+            "window_after": 30,
+            "window_before": 5
+          }
+        ],
+        "cache_hit_rate": 0.0,
+        "cache_hits": 0,
+        "cache_misses": 1031,
+        "database_hash": "7499ff7d47394567d22fc63c601e064bb29d833b5e57fd29243cc50517ec695f",
+        "database_hash_seconds": 0.05103822900036903,
+        "requests": 1091,
+        "round": 1,
+        "unique_requests": 1031,
+        "wall_seconds": 124.80097889400076
+      },
+      {
+        "batch_count": 4,
+        "batches": [
+          {
+            "batch_id": "17fbf5803281bc76f4815b177ab04392e4b121b966ce89d944f78164b142363a",
+            "request_count": 59,
+            "status": "ok",
+            "template_id": "find-constant-assignment-nearby",
+            "tuple_count": 297,
+            "wall_seconds": 10.920965020999574,
+            "window_after": 120,
+            "window_before": 100
+          },
+          {
+            "batch_id": "caee948b365367cd5c4bb61d02a92018ef3448693d8c7bc69506f0b0a2b71321",
+            "request_count": 1,
+            "status": "ok",
+            "template_id": "find-xss-encoder-nearby",
+            "tuple_count": 0,
+            "wall_seconds": 8.70952969300015,
+            "window_after": 30,
+            "window_before": 80
+          },
+          {
+            "batch_id": "deaf1e8a8fa4f7b910143605ce95e313836e85224359d0a07ce84d797b3096dc",
+            "request_count": 2,
+            "status": "ok",
+            "template_id": "find-sql-parameterization",
+            "tuple_count": 6,
+            "wall_seconds": 9.334906452999348,
+            "window_after": 30,
+            "window_before": 80
+          },
+          {
+            "batch_id": "60f53646b74b0a9f43a7c917612db55be722aa57119a572dbf14ba55e62113f7",
+            "request_count": 24,
+            "status": "ok",
+            "template_id": "find-session-attribute-origin",
+            "tuple_count": 128,
+            "wall_seconds": 10.241108763000739,
+            "window_after": 10,
+            "window_before": 100
+          }
+        ],
+        "cache_hit_rate": 0.0,
+        "cache_hits": 0,
+        "cache_misses": 86,
+        "database_hash": "7499ff7d47394567d22fc63c601e064bb29d833b5e57fd29243cc50517ec695f",
+        "database_hash_seconds": 1.6280000636470504e-06,
+        "requests": 86,
+        "round": 2,
+        "unique_requests": 86,
+        "wall_seconds": 39.21368535300007
+      }
+    ],
+    "wall_seconds": 164.01466424700084
+  },
+  "resume_start_iteration": null,
+  "resumed": false,
+  "verdict_counts": {
+    "FP": 459,
+    "TP": 1461,
+    "UNKNOWN": 54
+  },
+  "wall_seconds": 2349.922694375,
+  "workers": 16
+}
