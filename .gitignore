@@ -20,6 +20,7 @@ codeql-home/
 *.sarif.json
 # CodeQL 下载工具和运行产物
 tools/codeql-bundle-*/
+tools/codeql-queries-*/
 tools/jdk-*/
 data/codeql-db/
 
