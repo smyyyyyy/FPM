@@ -1,7 +1,0 @@
-{"#select":{"columns":[
-   {"kind":"String"}
-  ,{"kind":"Integer"}
-  ,{"name":"call","kind":"Entity"}
-  ,{"kind":"String"}]
- ,"tuples":[]
- }}

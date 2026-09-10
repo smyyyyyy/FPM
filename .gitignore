@@ -8,21 +8,20 @@ dist/
 *.egg-info/
 
 # Large experiment artifacts
-data/raw/
-data/interim/
-data/results/
-data/cache/
+data/
 benchmark-db/
 BenchmarkJava/
 codeql-home/
 *.bqrs
 *.sarif
 *.sarif.json
-# CodeQL 下载工具和运行产物
+# 本地工具链与构建缓存（scripts/bootstrap_*.sh 可重建）
 tools/codeql-bundle-*/
 tools/codeql-queries-*/
 tools/jdk-*/
-data/codeql-db/
+tools/apache-maven/
+.m2/
+.marscode/
 
 # 日志
 *.log

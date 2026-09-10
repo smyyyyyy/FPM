@@ -1,8 +1,0 @@
-{"#select":{"columns":[
-   {"kind":"String"}
-  ,{"kind":"Integer"}
-  ,{"name":"arg","kind":"Entity"}
-  ,{"kind":"String"}]
- ,"tuples":[
-   ["src/main/java/org/owasp/benchmark/testcode/BenchmarkTest00933.java",55,{"label":"sql"},"Sink argument candidate: sql"]]
- }}
